@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 
 import Container from '../componenets/Container';
 
 class Users extends Component {
+    constructor(props) {
+        super(props);
+
+    }
 
     render() {
         return (
             <Container>
-                <Text>
+                <Text style={styles.text}>
                     Users Component
                 </Text>
+
+
+                <Button
+                    title='change me'
+                    onPress={() => {
+                        this.props.navigation.navigate('Chat')
+                    }}
+                />
             </Container>
         )
     }
 }
+
+
 
 const styles = StyleSheet.create({
     text: {

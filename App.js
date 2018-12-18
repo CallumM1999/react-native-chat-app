@@ -7,11 +7,12 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { createBottomTabNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 
 import Users from './app/screens/Users';
+import Chat from './app/screens/Chat';
 import Settings from './app/screens/Settings';
 
 const instructions = Platform.select({
@@ -22,8 +23,16 @@ const instructions = Platform.select({
 });
 
 
-const TabNavigator = createBottomTabNavigator({
+
+const ChatNavigator = createSwitchNavigator({
     Users: Users,
+    Chat: Chat
+})
+
+const ChatContainer = createAppContainer(ChatNavigator)
+
+const TabNavigator = createBottomTabNavigator({
+    Chat: ChatContainer,
     Settings: Settings
 })
 
@@ -35,35 +44,5 @@ export default class App extends Component<Props> {
     return (
         <AppContainer />
     )
-
-    // return (
-    //   <View style={styles.container}>
-    //     <Text style={styles.welcome}>Welcome to React Native!</Text>
-    //     <Text style={styles.instructions}>To get started, edit App.js</Text>
-    //     <Text style={styles.instructions}>{instructions}</Text>
-
-
-    //     <Users />
-    //   </View>
-    // );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

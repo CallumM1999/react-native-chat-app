@@ -13,15 +13,13 @@ const Header = props => {
 
 const styles = StyleSheet.create({
     container: {    
-        height: 80,
-        width: '100%',
-        backgroundColor: 'red'
+        backgroundColor: '#333',
+        padding: 10,
     },
     heading: {
-        fontSize: 28,
-        textAlign: 'center',
+        fontSize: 30,
         color: 'white',
-        marginTop: 20
+        textAlign: 'center'
     }
 })
 

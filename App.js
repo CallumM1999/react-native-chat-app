@@ -6,8 +6,13 @@
  * @flow
  */
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+
+
+import Users from './app/screens/Users';
+import Settings from './app/screens/Settings';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -16,16 +21,31 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+
+const TabNavigator = createBottomTabNavigator({
+    Users: Users,
+    Settings: Settings
+})
+
+const AppContainer = createAppContainer(TabNavigator);
+
 type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
+        <AppContainer />
+    )
+
+    // return (
+    //   <View style={styles.container}>
+    //     <Text style={styles.welcome}>Welcome to React Native!</Text>
+    //     <Text style={styles.instructions}>To get started, edit App.js</Text>
+    //     <Text style={styles.instructions}>{instructions}</Text>
+
+
+    //     <Users />
+    //   </View>
+    // );
   }
 }
 

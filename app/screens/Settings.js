@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-import Header from '../componenets/Header'
+import Container from '../componenets/Container'
 
 class Settings extends Component {
 
     render() {
         return (
-            <View>
-                <Header />
-
+            <Container>
                 <Text>
                     Settings Component
                 </Text>
-            </View>
+            </Container>
         )
     }
 }

@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-import Header from '../componenets/Header'
+import Container from '../componenets/Container';
 
 class Users extends Component {
 
     render() {
         return (
-            <View>
-                <Header />
-
+            <Container>
                 <Text>
                     Users Component
                 </Text>
-            </View>
+            </Container>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    text: {
+        width: '100%',
+        height: 400,
+        backgroundColor: 'orange',
+        color: 'black'
+    }
+})
 
 export default Users;

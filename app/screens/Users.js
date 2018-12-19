@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableNativeFeedback } from 'react-native';
+import { View, Text, ScrollView, TouchableNativeFeedback } from 'react-native';
 
 import Container from '../componenets/Container';
+
+import styles from '../styles/users';
 
 class Users extends Component {
     constructor(props) {
@@ -80,50 +82,5 @@ class Users extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    scrollView: {
-    
-    },
-    item: {
-        borderStyle: 'solid', 
-        borderColor: '#eee',
-        borderBottomWidth: 2,
-
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    circle: {
-        backgroundColor: 'red', 
-        width: 70,
-        height: 70,
-        borderRadius: 100/2,
-    },
-    right: {
-        paddingLeft: 20,
-    },
-    left: {
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: 'row',
-        flex: 1
-    },
-    text: {
-        marginLeft: 20,
-    },
-    name: {
-        fontWeight: '600',
-        fontSize: 22
-    },
-    message: {
-        fontSize: 18
-    },
-})
 
 export default Users;

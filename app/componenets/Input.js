@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, TextInput, View, Text, Alert } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 class Input extends Component {
     constructor(props) {

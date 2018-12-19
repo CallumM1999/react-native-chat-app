@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, TouchableNativeFeedback } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import Container from '../componenets/Container';
 
@@ -49,7 +50,7 @@ class Users extends Component {
 
     render() {
         return (
-            <Container>
+            <Container openSettings={() => Actions.settings()}>
                 <ScrollView style={styles.scrollView}>
                     {
                         this.state.users.map((item, index) => {
@@ -57,7 +58,7 @@ class Users extends Component {
 
                                 <TouchableNativeFeedback
                                     key={index}
-                                    onPress={() => this.props.navigation.navigate('Chat')}  
+                                    onPress={() => Actions.chat()}  
                                     background={TouchableNativeFeedback.SelectableBackground()}
                                 >
                                     <View style={styles.item} >

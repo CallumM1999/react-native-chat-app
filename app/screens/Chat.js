@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, TextInput, View, Text } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+
 
 import Container from '../componenets/Container';
 import Message from '../componenets/Message';
@@ -10,7 +12,6 @@ class Chat extends Component {
     constructor(props) {
         super(props);
 
-        this.handleBackButton = this.handleBackButton.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.addLocalMessage = this.addLocalMessage.bind(this);
 
@@ -70,15 +71,11 @@ class Chat extends Component {
         }))
     }
 
-    handleBackButton() {
-        this.props.navigation.navigate('Users')
-    }
-
     render() {
         return (
             <Container 
                 heading='some user'
-                back={this.handleBackButton}
+                back={Actions.pop}
             >
                 <ScrollView style={styles.scrollView}>
                 {

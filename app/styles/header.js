@@ -33,7 +33,20 @@ const styles = StyleSheet.create({
     backButtonText: {
         color: '#000',
         fontSize: 20
-    }
+    },
+
+
+    settings: {
+        position: 'absolute',
+        right: 10,
+        display: 'flex',
+        justifyContent: 'center',
+        backgroundColor: '#444',
+        borderRadius: 6,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        
+    },
 });
 
 export default styles;

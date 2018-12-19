@@ -21,6 +21,20 @@ const Header = props => {
                     </TouchableNativeFeedback>
                 )
             }
+
+            {
+                !!props.openSettings && (
+                    <TouchableNativeFeedback
+                        onPress={props.openSettings}
+                    >
+                        <View style={styles.settings}>
+                            <Text>
+                                (S)
+                            </Text>
+                        </View>
+                    </TouchableNativeFeedback>
+                )
+            }
             
         </View>
     );

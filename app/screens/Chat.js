@@ -11,43 +11,42 @@ class Chat extends Component {
         this.handleBackButton = this.handleBackButton.bind(this);
 
         this.state = {
-            messages: [
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' },
-                { message: 'message', user: 'me' },
-                { message: 'message', user: 'else' }, 
-            ]
+            messages: []
         }
 
+    }
+
+    componentWillMount() {
+        const messages = [];
+        const users = [
+            'me', 
+            'other'
+        ]
+        const possibleMessages = [
+            'a asdasd',
+            'asd',
+            'adasad ajdsa dasjd asjd asdj d',
+            'asd asd asdasd ad',
+            'asdasdasdasdasd',
+            'addsfsdfsdfsdf', 
+            'adasdasdasdasdasd',
+            'asd asdsa ',
+            'asdasd',
+            'adas',
+            'asdsad'
+        ]
+
+        for (let i=0;i<100;i++) {
+            const user = users[Math.floor(Math.random() * 2)];
+            const message = possibleMessages[Math.floor(Math.random() * possibleMessages.length)];
+
+            messages.push({ message, user })
+        }
+    
+
+        this.setState({
+            messages
+        });
     }
 
     handleBackButton() {

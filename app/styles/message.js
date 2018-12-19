@@ -21,11 +21,13 @@ const styles = props => {
 
             backgroundColor: props.user === 'me' ? '#eee' : '#0084ff',
 
-            borderTopLeftRadius: props.position === 'single' || props.position === 'first' ? 20 : 5,
-            borderBottomLeftRadius: props.position === 'single' || props.position === 'last' ? 20 : 5,
 
-            borderBottomRightRadius: 20,
-            borderTopRightRadius: 20,
+            borderTopLeftRadius: props.user === 'me' ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
+            borderBottomLeftRadius: props.user === 'me' ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
+
+            borderTopRightRadius: props.user !== 'me' ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
+            borderBottomRightRadius: props.user !== 'me' ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
+
         },
     
         messageText: {

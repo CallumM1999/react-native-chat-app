@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, TextInput, View, Text } from 'react-native';
 
 import Container from '../componenets/Container';
 import Message from '../componenets/Message';
+import Input from '../componenets/Input';
+
 
 class Chat extends Component {
     constructor(props) {
         super(props);
 
         this.handleBackButton = this.handleBackButton.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.addLocalMessage = this.addLocalMessage.bind(this);
 
         this.state = {
             messages: []
@@ -36,7 +40,7 @@ class Chat extends Component {
             'asdsad'
         ]
 
-        for (let i=0;i<100;i++) {
+        for (let i=0;i<50;i++) {
             const user = users[Math.floor(Math.random() * 2)];
             const message = possibleMessages[Math.floor(Math.random() * possibleMessages.length)];
 
@@ -47,6 +51,23 @@ class Chat extends Component {
         this.setState({
             messages
         });
+    }
+
+    sendMessage(message) {
+        console.log(`Sending message => ${message}`)
+        this.addLocalMessage(message);
+    }
+
+    addLocalMessage(message) {
+        this.setState(prev => ({
+            messages: [
+                ...prev.messages,
+                {
+                    message,
+                    user: 'me'
+                }
+            ]
+        }))
     }
 
     handleBackButton() {
@@ -75,6 +96,11 @@ class Chat extends Component {
                     })
                 }
                 </ScrollView>
+
+                <Input 
+                    sendMessage={this.sendMessage}
+                />
+                
             </Container>
         )
     }
@@ -84,6 +110,7 @@ const styles = StyleSheet.create({
     scrollView: {
     
     },
+
 })
 
 export default Chat;

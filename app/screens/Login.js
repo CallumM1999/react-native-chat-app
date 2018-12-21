@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Button , Text, View, TextInput } from 'react-native';
+import { Button , Text, View, TextInput, TouchableNativeFeedback } from 'react-native';
 
 import { connect } from 'react-redux'
 import Container from '../componenets/Container';
 import Loading from '../componenets/Loading';
 
-import { loadToken, loginRequest } from '../actions/auth';
+import { loadToken, loginRequest, loginError } from '../actions/auth';
 
 import styles from '../styles/Login';
 
@@ -34,9 +34,10 @@ class Login extends Component {
         if (!password || !email) {
             error = true;
 
-            this.setState({
-                error: `Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`
-            });
+            this.props.dispatch(loginError(`Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`))
+            // this.setState({
+            //     error: `Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`
+            // });
         }
 
         if (error) return;
@@ -54,8 +55,7 @@ class Login extends Component {
         return (
             <Container heading='Login' >
                 <View style={styles.container}>
-                    <Text style={styles.title}>Login</Text>
-                    <Text>Error: {this.props.tokenError}</Text>
+               
 
                     <TextInput 
                         style={styles.input}
@@ -76,20 +76,23 @@ class Login extends Component {
                         secureTextEntry
                     ></TextInput>
 
-                    {
-                        this.state.error && <Text style={styles.error}>{this.state.error}</Text>
-                    }
+                    {this.props.loginError && <Text style={styles.error}>{this.props.loginError}</Text>}
+                
 
-                    <Text>{this.props.loginLoading && 'Loading...'}</Text>
-                    <Text>Login error: {this.props.loginError}</Text>
+                    <Text style={styles.loading}>{this.props.loginLoading && 'Loading...'}</Text>
 
-                    <Button 
-                        title='Login' 
-                        color='orange'
-                        onPress={this.handleLogin}
-                    />
 
-                    
+                    <TouchableNativeFeedback
+                        onPress={this.handleLogin}    
+                    >
+                        <View style={styles.submit}>
+                            <Text 
+                                style={styles.submitText}
+                            >LOGIN</Text>
+                        </View>
+                        
+                    </TouchableNativeFeedback>
+                                     
                 </View>
             </Container>
         )

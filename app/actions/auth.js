@@ -79,7 +79,7 @@ const loginLoading = () => ({
     type: 'LOGIN_LOADING'
 });
 
-const loginError = (error) => ({
+export const loginError = (error) => ({
     type: 'LOGIN_ERROR',
     error
 });

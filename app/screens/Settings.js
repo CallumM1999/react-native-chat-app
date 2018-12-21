@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { Text, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 
-import { logout } from '../actions/auth';
-
+import { logoutRequest } from '../actions/auth';
 
 import Container from '../componenets/Container'
 
@@ -17,7 +16,7 @@ class Settings extends Component {
 
                 <Button 
                     title='logout'
-                    onPress={() => this.props.dispatch(logout())}
+                    onPress={() => this.props.dispatch(logoutRequest())}
                 />
             </Container>
         )

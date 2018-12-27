@@ -1,11 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
-
 import getStyleSheet from '../styles/message';
 
-
-
-const Message = ({ index, message, user, prev, next }) => {
+const Message = ({ index, message, user, prev, next, _id }) => {
     // POSITIONS
     // ---------
     // single - round both corners
@@ -17,13 +14,15 @@ const Message = ({ index, message, user, prev, next }) => {
     const backCorner = next !== user;
     const position = frontCorner && backCorner ? 'single' : frontCorner && !backCorner ? 'first' : !frontCorner && backCorner ? 'last' : 'middle'; 
 
-    const styles = getStyleSheet({ user, position });
-        // console.log('message from', user)
+    const currentUser = user === _id;
+
+    const styles = getStyleSheet({ user: currentUser, position });
+        // console.log({ message, user, prev, next, _id }, 'current user', user === _id)
     return (
        
         <View style={styles.item} >
             
-            { (user !== 'me' && (next === 'me' || !next)) && <View style={styles.circle}></View> }
+            { (!currentUser && (next !== user || !next)) && <View style={styles.circle}></View> }
 
             <View style={styles.message}>
                 <Text style={styles.messageText}>{message}</Text>

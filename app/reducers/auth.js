@@ -1,17 +1,15 @@
-const defaultState = () => {
-    return {
-        loggedIn: false,
-        token: null,
-        username: null,
+const defaultState = () => ({
+    loggedIn: false,
+    token: null,
+    username: null,
+    _id: null,
 
+    tokenLoading: true,
+    tokenError: null,
 
-        tokenLoading: true,
-        tokenError: null,
-
-        loginLoading: false,
-        loginError: null
-    }
-}
+    loginLoading: false,
+    loginError: null
+});
 
 const auth = (state = defaultState(), action) => {
     switch (action.type) {
@@ -21,6 +19,7 @@ const auth = (state = defaultState(), action) => {
                 loggedIn: true,
                 token: action.token,
                 username: action.username,
+                _id: action._id,
                 loginLoading: false,
                 loginError: null,
                 tokenLoading: false,
@@ -31,7 +30,8 @@ const auth = (state = defaultState(), action) => {
                 ...state,
                 loggedIn: false,
                 token: null,
-                username: null
+                username: null,
+                _id: null
             }
         case 'LOGIN_LOADING':
             return {

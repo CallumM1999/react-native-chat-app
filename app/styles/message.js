@@ -9,7 +9,7 @@ const styles = props => {
             alignItems: 'center',
             paddingHorizontal: 20,
 
-            justifyContent: props.user === 'me' ? 'flex-end' : 'flex-start'
+            justifyContent: props.user ? 'flex-end' : 'flex-start'
         },
         message: {
             paddingVertical: 6,
@@ -19,21 +19,21 @@ const styles = props => {
             marginTop: props.position === 'single' || props.position === 'first' ? 10 : 1,
             marginBottom: props.position === 'single' || props.position === 'last' ? 10 : 1,
 
-            backgroundColor: props.user === 'me' ? '#eee' : '#0084ff',
+            backgroundColor: props.user ? '#eee' : '#0084ff',
 
 
-            borderTopLeftRadius: props.user === 'me' ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
-            borderBottomLeftRadius: props.user === 'me' ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
+            borderTopLeftRadius: props.user ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
+            borderBottomLeftRadius: props.user ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
 
-            borderTopRightRadius: props.user !== 'me' ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
-            borderBottomRightRadius: props.user !== 'me' ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
+            borderTopRightRadius: !props.user ? 20 : props.position === 'single' || props.position === 'first' ? 20 : 5,
+            borderBottomRightRadius: !props.user ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
 
         },
     
         messageText: {
             fontSize: 16,
 
-            color: props.user === 'me' ? '#222' : '#fff',
+            color: props.user ? '#222' : '#fff',
         },
     
         circle: {

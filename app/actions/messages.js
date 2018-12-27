@@ -1,0 +1,1 @@
+export const newMessage = messages => ({ type: 'NEW_MESSAGE', messages });

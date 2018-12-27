@@ -8,7 +8,6 @@ class Input extends Component {
         this.updateInputValue = this.updateInputValue.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-
         this.state = {
             input: ''
         }
@@ -18,18 +17,13 @@ class Input extends Component {
         const message = this.state.input;
         if (!message) return;
 
-        this.setState({
-            input: ''
-        }, () => {
+        this.setState({ input: '' }, () => {
             this.props.sendMessage(message);
-        })
-        
+        });
     }
 
     updateInputValue(input) {
-        this.setState({
-            input
-        })
+        this.setState({ input });
     }
 
     render() {
@@ -42,7 +36,6 @@ class Input extends Component {
                     onChangeText={this.updateInputValue}
                     onSubmitEditing={this.handleSubmit}
                 />
-                
             </View>
         )
     }

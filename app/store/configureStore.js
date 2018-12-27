@@ -1,11 +1,17 @@
-import { createStore, applyMiddleware, combineReducers, compose } from 'redux'; 
+import { createStore, applyMiddleware, combineReducers } from 'redux'; 
 import thunkMiddleware from 'redux-thunk';
 
 import authReducer from '../reducers/auth';
+import messagesReducer from '../reducers/messages';
 
 const configureStore = () => createStore(
-    authReducer, 
+    combineReducers({
+        auth: authReducer,
+        messages: messagesReducer
+    }), 
     applyMiddleware(thunkMiddleware)
 );
 
-export default configureStore;
+const store = configureStore();
+
+export default store;

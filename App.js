@@ -5,14 +5,13 @@ import socket from './app/socket/socket';
 
 import AppRouter from './app/router/router';
 
-let loggedIncurr;
-
+let loggedInCurr;
 const handleAuthState = () => {
     const state = store.getState();
-    let prev = loggedIncurr;
-    loggedIncurr = state.auth.loggedIn;
+    let prev = loggedInCurr;
+    loggedInCurr = state.auth.loggedIn;
 
-    if (!prev && loggedIncurr) return socket.connect(state.auth.token);
+    if (!prev && loggedInCurr) return socket.connect(state.auth.token);
     if (prev && !loggedInCurr) return socket.disconnect();
 }
 

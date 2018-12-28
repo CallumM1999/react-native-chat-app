@@ -1,9 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    scrollView: {
-    
-    },
+
     item: {
         borderStyle: 'solid', 
         borderColor: '#eee',

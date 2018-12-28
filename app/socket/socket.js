@@ -22,9 +22,9 @@ class Socket {
         this.socket.disconnect();
     }
 
-    sendMessage(message, username) {
+    sendMessage(message, username, room) {
         console.log('send message', message)
-        this.socket.emit('message', { message, room: 1, username })
+        this.socket.emit('message', { message, room, username })
     }
 
     handleConnection() {
@@ -45,7 +45,7 @@ class Socket {
 
             if (data.length > 0) {
                 console.log('get message', data);
-                store.dispatch(newMessage(data));
+                store.dispatch(newMessage(data[0]));
             } 
         })
     }

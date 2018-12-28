@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, TouchableNativeFeedback } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 
 import Container from '../componenets/Container';
 
-import styles from '../styles/users';
+import User from '../componenets/User';
 
 class Users extends Component {
     constructor(props) {
@@ -12,71 +13,46 @@ class Users extends Component {
 
         this.state = {
             users: [
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
-                { user: 'Callum', lastMessage: 'last message..', time: '17:23' },
+                // { title: 'Room 1', lastMessage: `user : ${this.props.messages['1'][0].message}`, time: '17:23', room: 1 },
+                // { title: 'Room 2', lastMessage: 'last message..', time: '17:23', room: 2 },
+                // { title: 'Room 3', lastMessage: 'last message..', time: '17:23', room: 3 },
+                // { title: 'Room 4', lastMessage: 'last message..', time: '17:23', room: 4 },
+                // { title: 'Room 5', lastMessage: 'last message..', time: '17:23', room: 5 },
+                // { title: 'Room 6', lastMessage: 'last message..', time: '17:23', room: 6 },  
             ]
         }
     }
 
+    componentWillMount() {
+        const users = [];
+        // console.log('load conversations');
+        // console.log(this.props.messages)
+
+        for (let key in this.props.messages) {
+            if (this.props.messages.hasOwnProperty(key)) {
+                const room = this.props.messages[key];
+                const lastMessage = room.messages[room.messages.length -1];
+                users.push({ title: room.title, lastMessage: lastMessage.message, time: lastMessage.time, room: key });
+            }
+        }
+
+        this.setState({ users });
+    }
+
     render() {
         return (
-            <Container openSettings={() => Actions.settings()}>
-                <ScrollView style={styles.scrollView}>
+            <Container heading='Users' openSettings={() => Actions.settings()}>
+                <ScrollView>
                     {
-                        this.state.users.map((item, index) => {
-                            return (
-
-                                <TouchableNativeFeedback
-                                    key={index}
-                                    onPress={() => Actions.chat()}  
-                                    background={TouchableNativeFeedback.SelectableBackground()}
-                                >
-                                    <View style={styles.item} >
-                                        <View style={styles.left}>
-                                            <View style={styles.circle}/>
-                                            <View style={styles.text}>
-                                                <Text style={styles.name}>{item.user}</Text>
-                                                <Text style={styles.message}>{item.lastMessage}</Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.right}>
-                                            <Text>{item.time}</Text>
-                                        </View>
-                                    </View>
-                                </TouchableNativeFeedback>
-
-                            )
-                        })
+                        this.state.users.map((item, index) => (
+                            <User 
+                                key={index}      
+                                title={item.title}   
+                                lastMessage={item.lastMessage}
+                                time={item.time} 
+                                room={item.room}                       
+                            />
+                        ))
                     }
                 </ScrollView>
             </Container>
@@ -84,4 +60,8 @@ class Users extends Component {
     }
 }
 
-export default Users;
+const mapStateToProps = ({ messages }) => ({
+    messages: messages.messages
+});
+
+export default connect(mapStateToProps)(Users);

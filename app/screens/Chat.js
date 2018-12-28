@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { ScrollView, } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Container from '../componenets/Container';
 import Message from '../componenets/Message';
 import Input from '../componenets/Input';
 import socket from '../socket/socket';
 import { connect } from 'react-redux';
+import { newMessage } from '../actions/messages'
 
 class Chat extends Component {
     constructor(props) {
@@ -17,28 +18,37 @@ class Chat extends Component {
     sendMessage(message) {
         console.log(`Sending message => ${message}`);
         this.addLocalMessage(message);
-        socket.sendMessage(message, this.props._id);
+        socket.sendMessage(message, this.props._id, this.props.room);
     }
 
     addLocalMessage(message) {
-        const newMessage = { message, user: this.props._id };
-        this.props.dispatch(newMessage([ newMessage ]));
+        const formattedMessage = { message, username: this.props._id, room: this.props.room };
+        this.props.dispatch(newMessage(formattedMessage));
     }
 
     render() {
+        const rm = this.props.room;
+        // console.log('props', this.props);
+        // console.log('room', this.props.room);
+        // console.log('messages', this.props.messages)
+        // console.log('messages in room', this.props.messages[rm].messages);
+        
+        console.log('chat props', this.props.messages[rm])
+
         return (
-            <Container heading='some user' back={Actions.pop} >
-                <ScrollView style={styles.scrollView}>
-                {
-                    this.props.messages.map((item, index) => (
+            <Container heading={this.props.messages[rm].title} back={Actions.pop} >
+                <ScrollView>
+                {   this.props.messages.hasOwnProperty(rm) &&
+                    this.props.messages[rm].messages.map((item, index) => (
                         <Message
+                            room={rm}
                             message={item.message}
-                            user={item.user}
+                            username={item.username}
                             user_id={item}
                             key={index}
                             _id={this.props._id}
-                            prev={index-1 >= 0 ? this.props.messages[index -1].user : false}
-                            next={this.props.messages.length >= index +2 ? this.props.messages[index +1].user : false}
+                            prev={index-1 >= 0 ? this.props.messages[rm].messages[index -1].username : false}
+                            next={this.props.messages[rm].messages.length >= index +2 ? this.props.messages[rm].messages[index +1].username : false}
                         />
                     ))
                 }

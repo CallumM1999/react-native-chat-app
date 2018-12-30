@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {    
+    container: {
         backgroundColor: '#333',
 
         width: '100%',
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
     heading: {
         fontSize: 30,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         paddingVertical: 4,
         paddingHorizontal: 8,
-        
+
     },
     backButtonText: {
         color: '#000',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         paddingVertical: 4,
         paddingHorizontal: 8,
-        
+
     },
 });
 

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
 
     item: {
-        borderStyle: 'solid', 
+        borderStyle: 'solid',
         borderColor: '#eee',
         borderBottomWidth: 2,
 
@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     circle: {
-        backgroundColor: 'red', 
+        backgroundColor: 'red',
         width: 70,
         height: 70,
-        borderRadius: 100/2,
+        borderRadius: 100 / 2,
     },
     right: {
         paddingLeft: 20,

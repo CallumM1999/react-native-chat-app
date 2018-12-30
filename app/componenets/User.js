@@ -6,12 +6,12 @@ import styles from '../styles/user';
 
 const User = props => (
     <TouchableNativeFeedback
-        onPress={() => Actions.chat({ room: props.room })}  
+        onPress={() => Actions.chat({ room: props.room })}
         background={TouchableNativeFeedback.SelectableBackground()}
     >
         <View style={styles.item} >
             <View style={styles.left}>
-                <View style={styles.circle}/>
+                <View style={styles.circle} />
                 <View style={styles.text}>
                     <Text style={styles.name}>{props.title}</Text>
                     <Text style={styles.message}>{props.lastMessage}</Text>

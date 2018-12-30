@@ -8,24 +8,24 @@ import Login from '../screens/Login';
 
 const AppRouter = props => {
     if (!props.loggedIn) return <Login />;
-        
+
     return (
         <Router>
             <Scene key='root' hideNavBar duration={0} >
-                <Scene 
+                <Scene
                     key='users'
                     component={Users}
                     title='Users'
                     initial
                 />
 
-                <Scene 
+                <Scene
                     key='chat'
                     component={Chat}
                     title='Chat'
                 />
 
-                <Scene 
+                <Scene
                     key='settings'
                     component={Settings}
                     title='Settings'

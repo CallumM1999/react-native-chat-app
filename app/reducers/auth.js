@@ -37,7 +37,7 @@ const auth = (state = defaultState(), action) => {
             return {
                 ...state,
                 loginLoading: true,
-                
+
             }
         case 'LOGIN_ERROR':
             return {
@@ -45,7 +45,7 @@ const auth = (state = defaultState(), action) => {
                 loginLoading: false,
                 loginError: action.error
             }
-        
+
         case 'TOKEN_LOADING':
             return {
                 ...state,

@@ -14,7 +14,7 @@ class Settings extends Component {
             <Container back={Actions.pop}>
                 <Text>Settings Component</Text>
 
-                <Button 
+                <Button
                     title='logout'
                     onPress={() => this.props.dispatch(logoutRequest())}
                 />

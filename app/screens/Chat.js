@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, } from 'react-native';
+import { ScrollView, AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Container from '../componenets/Container';
 import Message from '../componenets/Message';
@@ -32,26 +32,26 @@ class Chat extends Component {
         // console.log('room', this.props.room);
         // console.log('messages', this.props.messages)
         // console.log('messages in room', this.props.messages[rm].messages);
-        
-        console.log('chat props', this.props.messages[rm])
+
+        // console.log('chat props', this.props.messages[rm])
 
         return (
             <Container heading={this.props.messages[rm].title} back={Actions.pop} >
                 <ScrollView>
-                {   this.props.messages.hasOwnProperty(rm) &&
-                    this.props.messages[rm].messages.map((item, index) => (
-                        <Message
-                            room={rm}
-                            message={item.message}
-                            username={item.username}
-                            user_id={item}
-                            key={index}
-                            _id={this.props._id}
-                            prev={index-1 >= 0 ? this.props.messages[rm].messages[index -1].username : false}
-                            next={this.props.messages[rm].messages.length >= index +2 ? this.props.messages[rm].messages[index +1].username : false}
-                        />
-                    ))
-                }
+                    {this.props.messages.hasOwnProperty(rm) &&
+                        this.props.messages[rm].messages.map((item, index) => (
+                            <Message
+                                room={rm}
+                                message={item.message}
+                                username={item.username}
+                                user_id={item}
+                                key={index}
+                                _id={this.props._id}
+                                prev={index - 1 >= 0 ? this.props.messages[rm].messages[index - 1].username : false}
+                                next={this.props.messages[rm].messages.length >= index + 2 ? this.props.messages[rm].messages[index + 1].username : false}
+                            />
+                        ))
+                    }
                 </ScrollView>
                 <Input sendMessage={this.sendMessage} />
             </Container>

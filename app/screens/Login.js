@@ -20,6 +20,8 @@ class Login extends Component {
     }
 
     handleLogin() {
+        if (this.props.loginLoading) return console.log('Waiting for previous request')
+
         const { email, password } = this.state;
         let error = false;
 
@@ -30,7 +32,7 @@ class Login extends Component {
 
         if (error) return;
 
-        this.setState({ error: null }, this.props.dispatch(loginRequest(email, password)) );
+        this.setState({ error: null }, this.props.dispatch(loginRequest(email, password)));
     }
 
     render() {
@@ -39,8 +41,8 @@ class Login extends Component {
         return (
             <Container heading='Login' >
                 <View style={styles.container}>
-               
-                    <TextInput 
+
+                    <TextInput
                         style={styles.input}
                         placeholder='Email'
                         value={this.state.email}
@@ -49,7 +51,7 @@ class Login extends Component {
                         onSubmitEditing={this.handleLogin}
                     ></TextInput>
 
-                    <TextInput 
+                    <TextInput
                         style={styles.input}
                         placeholder='Password'
                         value={this.state.password}
@@ -68,7 +70,7 @@ class Login extends Component {
                             <Text style={styles.submitText} >LOGIN</Text>
                         </View>
                     </TouchableNativeFeedback>
-                                     
+
                 </View>
             </Container>
         )

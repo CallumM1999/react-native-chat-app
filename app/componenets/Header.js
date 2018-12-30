@@ -35,7 +35,7 @@ const Header = props => {
                     </TouchableNativeFeedback>
                 )
             }
-            
+
         </View>
     );
 }

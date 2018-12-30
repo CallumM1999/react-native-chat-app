@@ -12,7 +12,7 @@ class Input extends Component {
             input: ''
         }
     }
-    
+
     handleSubmit() {
         const message = this.state.input;
         if (!message) return;
@@ -29,7 +29,7 @@ class Input extends Component {
     render() {
         return (
             <View style={styles.input}>
-                <TextInput 
+                <TextInput
                     placeholder='Send a message...'
                     style={styles.textInput}
                     value={this.state.input}

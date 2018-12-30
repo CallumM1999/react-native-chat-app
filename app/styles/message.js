@@ -29,15 +29,15 @@ const styles = props => {
             borderBottomRightRadius: !props.user ? 20 : props.position === 'single' || props.position === 'last' ? 20 : 5,
 
         },
-    
+
         messageText: {
             fontSize: 16,
 
             color: props.user ? '#222' : '#fff',
         },
-    
+
         circle: {
-            backgroundColor: 'red', 
+            backgroundColor: 'red',
             width: 40,
             height: 40,
             borderRadius: 59,

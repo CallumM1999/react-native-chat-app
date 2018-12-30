@@ -12,8 +12,8 @@ class Socket {
     }
 
     connect(token) {
-        this.socket = io.connect('http://192.168.0.20:3000', 
-        { jsonp: false, secure: true, query: { token } }); 
+        this.socket = io.connect('http://192.168.0.16:3000',
+            { jsonp: false, secure: true, query: { token } });
         this.handleConnection();
     }
 
@@ -46,7 +46,7 @@ class Socket {
             if (data.length > 0) {
                 console.log('get message', data);
                 store.dispatch(newMessage(data[0]));
-            } 
+            }
         })
     }
 

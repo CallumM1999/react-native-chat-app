@@ -3,61 +3,67 @@ import jwt_decode from 'jwt-decode';
 
 const logout = () => ({ type: 'LOGOUT' });
 
-export const logoutRequest = () => dispatch => {
-    AsyncStorage.removeItem('token')
-        .then(res => dispatch(logout()))
-        .catch(err => console.log('error deleting token', err));
+export const logoutRequest = () => async dispatch => {
+	const keys = await AsyncStorage.getAllKeys();
+	const msgKeys = keys.filter(item => (item.includes('msg__') || item === 'token'));
+
+	AsyncStorage.multiRemove(msgKeys)
+		.then(() => dispatch(logout()))
+		.catch(err => console.log('error clearing local storage', err));
 };
 
-const login = ({ token, username, _id }) => ({
-    type: 'LOGIN',
-    token,
-    username,
-    _id
+const login = ({ token, fname, lname, _id, email }) => ({
+	type: 'LOGIN',
+	token,
+	fname,
+	lname,
+	_id,
+	email
 });
 
 export const loginRequest = (email, password) => dispatch => {
-    dispatch(loginLoading());
+	dispatch(loginLoading());
 
-    fetch('http://192.168.0.16:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ email, password })
-    })
-        .then(response => {
-            const token = response.headers.get('authorization');
-            if (response.status != 200) return dispatch(loginError(`Status: ${response.status}`));
-            const decoded = jwt_decode(token);
+	fetch('http://192.168.0.16:3000/login', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+		body: JSON.stringify({ email, password })
+	})
+		.then(response => {
+			const token = response.headers.get('authorization');
+			if (response.status != 200) return dispatch(loginError(`Status: ${response.status}`));
+			const decoded = jwt_decode(token);
 
-            AsyncStorage.setItem('token', token)
-                .then(res => dispatch(login({ token, username: decoded.username, _id: decoded._id })))
-                .catch(err => dispatch(loginError(`error setting token ${err}`)));
+			AsyncStorage.setItem('token', token)
+				.then(() => dispatch(login({ token, _id: decoded._id, fname: decoded.fname, lname: decoded.lname, email: decoded.email })))
+				.catch(err => dispatch(loginError(`error setting token ${err}`)));
 
-        })
-        .catch(err => dispatch(loginError(`error setting token ${err}`)));
-}
+		})
+		.catch(err => dispatch(loginError(`error setting token ${err}`)));
+};
 
 
 export const loadToken = () => dispatch => {
-    dispatch(tokenLoading());
+	dispatch(tokenLoading());
 
-    AsyncStorage.getItem('token')
-        .then(token => {
-            if (token === null) return dispatch(tokenError('Token is null'));
+	AsyncStorage.getItem('token')
+		.then(token => {
+			if (token === null) return dispatch(tokenError('Token is null'));
 
-            const decoded = jwt_decode(token);
-            const timeStamp = new Date / 1000;
+			const decoded = jwt_decode(token);
 
-            if (decoded.exp < timeStamp) {
-                AsyncStorage.removeItem('token')
-                    .then(res => dispatch(tokenError('Token expired')))
-                    .catch(err => dispatch(tokenError('Token expired, error deleting from AsyncStorage')));
-            } else {
-                dispatch(login({ token, username: decoded.username, _id: decoded._id }))
-            }
-        })
-        .catch(err => dispatch(tokenError(err)));
-}
+			const timeStamp = new Date / 1000;
+
+			if (decoded.exp < timeStamp) {
+				AsyncStorage.removeItem('token')
+					.then(() => dispatch(tokenError('Token expired')))
+					.catch(() => dispatch(tokenError('Token expired, error deleting from AsyncStorage')));
+			} else {
+				dispatch(login({ token, _id: decoded._id, fname: decoded.fname, lname: decoded.lname, email: decoded.email }));
+			}
+		})
+		.catch(err => dispatch(tokenError(err)));
+};
 
 const loginLoading = () => ({ type: 'LOGIN_LOADING' });
 

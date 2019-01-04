@@ -1,52 +1,52 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#333',
+	container: {
+		backgroundColor: '#333',
 
-        width: '100%',
-        height: 60,
+		width: '100%',
+		height: 60,
 
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 
-    },
-    heading: {
-        fontSize: 30,
-        color: 'white',
-        textAlign: 'center'
-    },
+	},
+	heading: {
+		fontSize: 30,
+		color: 'white',
+		textAlign: 'center'
+	},
 
-    backButton: {
-        position: 'absolute',
-        left: 10,
-        display: 'flex',
-        justifyContent: 'center',
-        backgroundColor: '#444',
-        borderRadius: 6,
-        paddingVertical: 4,
-        paddingHorizontal: 8,
+	backButton: {
+		position: 'absolute',
+		left: 10,
+		display: 'flex',
+		justifyContent: 'center',
+		backgroundColor: '#444',
+		borderRadius: 6,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
 
-    },
-    backButtonText: {
-        color: '#000',
-        fontSize: 20
-    },
+	},
+	backButtonText: {
+		color: '#000',
+		fontSize: 20
+	},
 
 
-    settings: {
-        position: 'absolute',
-        right: 10,
-        display: 'flex',
-        justifyContent: 'center',
-        backgroundColor: '#444',
-        borderRadius: 6,
-        paddingVertical: 4,
-        paddingHorizontal: 8,
+	settings: {
+		position: 'absolute',
+		right: 10,
+		display: 'flex',
+		justifyContent: 'center',
+		backgroundColor: '#444',
+		borderRadius: 6,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
 
-    },
+	},
 });
 
 export default styles;

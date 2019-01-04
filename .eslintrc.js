@@ -3,12 +3,15 @@ module.exports = {
         "browser": true,
         "es6": true
     },
-    extends: ["eslint:recommended", "prettier"],
+    "parser": "babel-eslint",
+
+    extends: ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 2018
+        "ecmaVersion": 2018,
+        "sourceType": "module",
     },
     "plugins": [
         "react"
@@ -27,18 +30,8 @@ module.exports = {
             "single"
         ],
         "semi": [
-            "error",
-            "always"
+            "error", "always"
         ],
         "no-console": "off",
-
-        "prettier/prettier": [
-            "error",
-            {
-                trailingComma: "es5",
-                singleQuote: true,
-                printWidth: 120
-            }
-        ]
     }
 };

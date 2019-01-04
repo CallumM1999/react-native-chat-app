@@ -1,55 +1,55 @@
 import io from 'socket.io-client';
-import { newMessage } from '../actions/messages';
+import { newMessages } from '../actions/messages';
+import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
 
 class Socket {
-    constructor() {
-        this.connect = this.connect.bind(this);
-        this.disconnect = this.disconnect.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-        this.handleConnection = this.handleConnection.bind(this);
-        this.socket = null;
-    }
+	constructor() {
+		this.connect = this.connect.bind(this);
+		this.disconnect = this.disconnect.bind(this);
+		this.sendMessage = this.sendMessage.bind(this);
+		this.handleConnection = this.handleConnection.bind(this);
+		this.socket = null;
+	}
 
-    connect(token) {
-        this.socket = io.connect('http://192.168.0.16:3000',
-            { jsonp: false, secure: true, query: { token } });
-        this.handleConnection();
-    }
+	connect(token) {
+		this.socket = io.connect('http://192.168.0.16:3000',
+			{ jsonp: false, secure: true, query: { token } });
+		this.handleConnection();
+	}
 
-    disconnect() {
-        console.log('disconnecting socket')
-        this.socket.disconnect();
-    }
+	disconnect() {
+		console.log('disconnecting socket');
+		this.socket.disconnect();
+	}
 
-    sendMessage(message, username, room) {
-        console.log('send message', message)
-        this.socket.emit('message', { message, room, username })
-    }
+	sendMessage(message) {
+		console.log('send message', message);
+		this.socket.emit('message', message);
+	}
 
-    handleConnection() {
-        this.socket.on('error', message => console.log('SOCKET ERROR:', message))
+	getRoomData(room, cb) {
+		this.socket.emit('getRoomData', room, data => cb(data));
+	}
 
-        // setInterval(() => {
-        //     this.socket.emit('maintainConnection', 1)
-        // }, 1000);
+	handleConnection() {
+		this.socket.on('error', message => console.log('SOCKET ERROR:', message));
 
-        this.socket.on('connect', socket => {
-            console.log('socket', this.socket.id)
-        });
+		this.socket.on('ONLINE_USERS', users => {
+			store.dispatch(updateUsers(users));
+		});
 
-        // socket.on('disconnect', socket => this.setState({ connected: false }));
+		this.socket.on('connect', () => {
+			console.log('socket connected', this.socket.id);
+		});
 
-        this.socket.on('sendMessageToClients', data => {
-            console.log('new message', data)
+		this.socket.on('disconnect', () => console.log('disconnected'));
 
-            if (data.length > 0) {
-                console.log('get message', data);
-                store.dispatch(newMessage(data[0]));
-            }
-        })
-    }
-
+		this.socket.on('sendMessageToClients', messages => {
+			console.log('messages', messages);
+			if (messages.length > 0) store.dispatch(newMessages(messages));
+		});
+	}
 }
 
 const socket = new Socket();

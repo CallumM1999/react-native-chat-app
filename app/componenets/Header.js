@@ -1,43 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, TouchableNativeFeedback } from 'react-native';
-
+import PropTypes from 'prop-types';
 import styles from '../styles/header';
 
-const Header = props => {
+const Header = props => (
+	<View style={styles.container}>
+		<Text style={styles.heading}>{props.heading || 'Header'}</Text>
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>{props.heading || 'Header'}</Text>
+		{
+			!!props.back && (
+				<TouchableNativeFeedback onPress={props.back}>
+					<View style={styles.backButton}>
+						<Text style={styles.backButtonText}>Back</Text>
+					</View>
+				</TouchableNativeFeedback>
+			)
+		}
 
-            {
-                !!props.back && (
+		{
+			!!props.openSettings && (
+				<TouchableNativeFeedback onPress={props.openSettings}>
+					<View style={styles.settings}>
+						<Text>(S)</Text>
+					</View>
+				</TouchableNativeFeedback>
+			)
+		}
 
-                    <TouchableNativeFeedback
-                        onPress={props.back}
-                    >
-                        <View style={styles.backButton}>
-                            <Text style={styles.backButtonText}>Back</Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                )
-            }
+	</View>
+);
 
-            {
-                !!props.openSettings && (
-                    <TouchableNativeFeedback
-                        onPress={props.openSettings}
-                    >
-                        <View style={styles.settings}>
-                            <Text>
-                                (S)
-                            </Text>
-                        </View>
-                    </TouchableNativeFeedback>
-                )
-            }
-
-        </View>
-    );
-}
+Header.propTypes = {
+	back: PropTypes.func,
+	openSettings: PropTypes.func,
+	heading: PropTypes.string
+};
 
 export default Header;

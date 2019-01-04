@@ -7,24 +7,24 @@ import AppRouter from './app/router/router';
 
 let loggedInCurr;
 const handleAuthState = () => {
-    const state = store.getState();
-    let prev = loggedInCurr;
-    loggedInCurr = state.auth.loggedIn;
+	const state = store.getState();
+	let prev = loggedInCurr;
+	loggedInCurr = state.auth.loggedIn;
 
-    if (!prev && loggedInCurr) return socket.connect(state.auth.token);
-    if (prev && !loggedInCurr) return socket.disconnect();
-}
+	if (!prev && loggedInCurr) return socket.connect(state.auth.token);
+	if (prev && !loggedInCurr) return socket.disconnect();
+};
 
 store.subscribe(handleAuthState);
 
 class App extends Component {
-    render() {
-        return (
-            <Provider store={store} >
-                <AppRouter />
-            </Provider>
-        )
-    }
+	render() {
+		return (
+			<Provider store={store} >
+				<AppRouter />
+			</Provider>
+		);
+	}
 }
 
 export default App;

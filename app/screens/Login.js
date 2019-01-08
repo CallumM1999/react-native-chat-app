@@ -16,7 +16,7 @@ class Login extends Component {
 		this.state = { email: null, password: null };
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.dispatch(loadToken());
 	}
 
@@ -48,7 +48,6 @@ class Login extends Component {
 						placeholder='Email'
 						value={this.state.email}
 						onChangeText={(text) => this.setState({ email: text })}
-
 						onSubmitEditing={this.handleLogin}
 					></TextInput>
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import getStyleSheet from '../styles/message';
+import getStyleSheet from '../styles/ChatMessage';
 import PropTypes from 'prop-types';
 
-const ChatMessage = ({ message, user, prev, next, _id }) => {
+const ChatMessage = ({ message, user, prev, next, _id, time }) => {
 	const frontCorner = prev !== user;
 	const backCorner = next !== user;
 	const position = frontCorner && backCorner ? 'single' : frontCorner && !backCorner ? 'first' : !frontCorner && backCorner ? 'last' : 'middle';
@@ -14,7 +14,7 @@ const ChatMessage = ({ message, user, prev, next, _id }) => {
 		<View style={styles.item} >
 			{(!currentUser && (next !== user || !next)) && <View style={styles.circle}></View>}
 			<View style={styles.message}>
-				<Text style={styles.messageText}>{message}</Text>
+				<Text style={styles.messageText}>{message} : {time}</Text>
 			</View>
 		</View>
 	);
@@ -25,7 +25,8 @@ ChatMessage.propTypes = {
 	user: PropTypes.string.isRequired,
 	prev: PropTypes.any.isRequired,
 	next: PropTypes.any.isRequired,
-	_id: PropTypes.string.isRequired
+	_id: PropTypes.string.isRequired,
+	time: PropTypes.any.isRequired
 };
 
 export default ChatMessage;

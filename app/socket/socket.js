@@ -1,7 +1,8 @@
 import io from 'socket.io-client';
-import { newMessages } from '../actions/messages';
+import { newMessage, missedMessages } from '../actions/messages';
 import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
+import { SERVER_URL } from '../../config.json';
 
 class Socket {
 	constructor() {
@@ -13,43 +14,27 @@ class Socket {
 	}
 
 	connect(token) {
-		this.socket = io.connect('http://192.168.0.16:3000',
-			{ jsonp: false, secure: true, query: { token } });
+		this.socket = io.connect(SERVER_URL, { jsonp: false, secure: true, query: { token } });
 		this.handleConnection();
 	}
 
-	disconnect() {
-		console.log('disconnecting socket');
-		this.socket.disconnect();
-	}
+    disconnect = () => this.socket.disconnect();
+    sendMessage = (message) => this.socket.emit('message', message, cb => console.log('message status', cb))
+    userSearch = (queryString, _id, cb) => this.socket.emit('userSearch', queryString, _id, cb)
+    getRoomData = (room, cb) => this.socket.emit('getRoomData', room, data => cb(data))
 
-	sendMessage(message) {
-		console.log('send message', message);
-		this.socket.emit('message', message);
-	}
+    handleConnection() {
+    	this.socket.on('error', message => console.log('SOCKET ERROR:', message));
+    	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
+    	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
+    	this.socket.on('disconnect', () => console.log('disconnected'));
+    	this.socket.on('sendMessageToClients', messages => store.dispatch(newMessage(messages)));
 
-	getRoomData(room, cb) {
-		this.socket.emit('getRoomData', room, data => cb(data));
-	}
-
-	handleConnection() {
-		this.socket.on('error', message => console.log('SOCKET ERROR:', message));
-
-		this.socket.on('ONLINE_USERS', users => {
-			store.dispatch(updateUsers(users));
-		});
-
-		this.socket.on('connect', () => {
-			console.log('socket connected', this.socket.id);
-		});
-
-		this.socket.on('disconnect', () => console.log('disconnected'));
-
-		this.socket.on('sendMessageToClients', messages => {
-			console.log('messages', messages);
-			if (messages.length > 0) store.dispatch(newMessages(messages));
-		});
-	}
+    	this.socket.on('clientMissedMessages', messages => {
+    		console.log('missed messages', messages);
+    		store.dispatch(missedMessages(messages));
+    	});
+    }
 }
 
 const socket = new Socket();

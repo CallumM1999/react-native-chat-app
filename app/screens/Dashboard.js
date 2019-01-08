@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import FloatingButton from '../componenets/FloatingButton';
@@ -18,32 +18,34 @@ class Dashboard extends Component {
     render() {
     	return (
     		<Container heading='Dashboard' openSettings={() => Actions.settings()}>
-    			<ScrollView>
-    				{
-    					Object.keys(this.props.messages).length > 0 &&
-                        Object.keys(this.props.messages).map((item, index) => {
-                        	const room = this.props.messages[item];
-                        	const msg = room.chat[room.chat.length - 1];
-                        	const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
+    			<FlatList
+    				keyExtractor={(item, index) => 'key' + index}
+    				data={Object.keys(this.props.messages)}
 
-                        	return (
-                        		<DashboardItem
-                        			key={index}
-                        			title={title}
-                        			lastMessage={!!msg && msg.msg}
-                        			time={!!msg && msg.time}
-                        			room={item}
-                        		/>
-                        	);
-                        })
-    				}
-    			</ScrollView>
+    				renderItem={({ item }) => {
+    					const room = this.props.messages[item];
+    					const msg = room.chat[room.chat.length - 1];
+    					const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
+
+    					return (
+    						<DashboardItem
+    							title={title}
+    							lastMessage={!!msg && msg.msg}
+    							time={!!msg && msg.time}
+    							room={item}
+    						/>
+    					);
+    				}}
+    			/>
+
 
     			<FloatingButton onPress={() => Actions.newRoom()} />
     		</Container>
     	);
     }
 }
+
+
 
 Dashboard.propTypes = {
 	dispatch: PropTypes.func.isRequired,

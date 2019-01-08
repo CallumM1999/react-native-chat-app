@@ -14,31 +14,10 @@ const AppRouter = props => {
 	return (
 		<Router>
 			<Scene key='root' hideNavBar duration={0} >
-				<Scene
-					key='dashboard'
-					component={Dashboard}
-					title='dashboard'
-					initial
-				/>
-
-				<Scene
-					key='chat'
-					component={Chat}
-					title='Chat'
-				/>
-
-				<Scene
-					key='newRoom'
-					component={NewRoom}
-					title='New Room'
-				/>
-
-				<Scene
-					key='settings'
-					component={Settings}
-					title='Settings'
-				/>
-
+				<Scene key='dashboard' component={Dashboard} initial />
+				<Scene key='chat' component={Chat} />
+				<Scene key='newRoom' component={NewRoom} />
+				<Scene key='settings' component={Settings} />
 			</Scene>
 		</Router>
 	);

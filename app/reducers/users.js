@@ -8,7 +8,6 @@ const auth = (state = defaultState(), action) => {
 		return {
 			...state,
 			users: action.users
-
 		};
 	default:
 		return state;

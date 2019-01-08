@@ -2,59 +2,77 @@ import { AsyncStorage } from 'react-native';
 import store from '../store/configureStore';
 import socket from '../socket/socket';
 
-export const newLocalMessage = (message, userID) => dispatch => {
+export const newLocalMessage = ({ msg, room, time }, userID) => async dispatch => {
+	const formattedMessage = { msg, room, sender: userID, time };
+	storeMessage(formattedMessage);
 	dispatch({
 		type: 'LOCAL_MESSAGE',
-		room: message.room,
-		message: {
-			msg: message.msg,
-			room: message.room,
-			sender: userID
-		}
+		room,
+		message: formattedMessage
 	});
 };
 
-export const newMessages = messages => async dispatch => {
+const getRoomData = room => new Promise((resolve, reject) => {
+	socket.getRoomData(room, cb => resolve(cb));
+});
+
+const handleMissedMessage = (message, dispatch) => new Promise(async (resolve, reject) => {
+	console.log('handle message', message);
+
 	const state = store.getState();
+	const hasKey = state.messages.hasOwnProperty(message.room);
+
+	if (hasKey) {
+		storeMessage(message);
+		dispatch({ type: 'NEW_MESSAGE', message: message });
+		resolve();
+	} else {
+		const roomData = await getRoomData(message.room);
+		storeMessage(message, roomData);
+		dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
+		resolve();
+	}
+});
+
+export const missedMessages = messages => async dispatch => {
 	const msgCount = messages.length;
 
 	for (let i = 0; i < msgCount; i++) {
-
-		const hasKey = state.messages.hasOwnProperty(messages[i].room);
-		if (hasKey) {
-			storeMessage(messages[i]);
-			return dispatch({ type: 'NEW_MESSAGE', message: messages[i] });
-		}
-
-		socket.getRoomData(messages[i].room, data => {
-			console.log('loaded room data', data);
-			storeMessage(messages[i], data);
-
-			dispatch({
-				type: 'NEW_ROOM',
-				room: messages[i].room,
-				fname: data.fname,
-				lname: data.lname,
-				roomType: 'user',
-				chat: [messages[i]]
-			});
-		});
+		await handleMissedMessage(messages[i], dispatch);
 	}
 };
+
+export const newMessage = message => async dispatch => {
+	console.log('new message', message);
+	const state = store.getState();
+	const hasKey = state.messages.hasOwnProperty(message.room);
+
+	if (hasKey) {
+		await storeMessage(message);
+		dispatch({ type: 'NEW_MESSAGE', message });
+	} else {
+		const roomData = await getRoomData(message.room);
+		await storeMessage(message, roomData);
+		dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
+	}
+};
+
+const newRoom = (room, fname, lname, chatMessages) => ({
+	type: 'NEW_ROOM',
+	room,
+	fname,
+	lname,
+	roomType: 'user',
+	chat: chatMessages
+});
 
 const storeMessage = (message, loadedData) => new Promise((resolve, reject) => {
 	AsyncStorage.getItem(`msg__${message.room}`, (err, item) => {
 		let data;
 
 		if (item) {
-			const parsed = JSON.parse(item);
-			console.log('parsed', parsed);
-			data = {
-				fname: parsed.fname,
-				lname: parsed.lname,
-				title: parsed.title,
-				chat: [...parsed.chat, message]
-			};
+			const { fname, lname, title, chat } = JSON.parse(item);
+			data = { fname, lname, title, chat: [...chat, message] };
 		} else {
 			data = { ...loadedData, chat: [message] };
 		}
@@ -83,14 +101,23 @@ export const loadMessages = () => async dispatch => {
 	dispatch(addLoadedMessages(messages));
 };
 
-export const addRoom = (user, cb) => dispatch => {
-	dispatch({
-		type: 'ADD_ROOM',
-		fname: user.fname,
-		lname: user.lname,
-		_id: user.userID,
-		roomType: 'user',
-		room: user.userID
-	});
-	cb();
+export const addRoom = ({ fname, lname, userID }, cb) => dispatch => {
+	console.log('add room');
+
+	const roomData = { fname, lname, chat: [] };
+
+	AsyncStorage.setItem(`msg__${userID}`, JSON.stringify(roomData))
+		.then(() => {
+			dispatch({
+				type: 'ADD_ROOM',
+				fname,
+				lname,
+				_id: userID,
+				roomType: 'user',
+				room: userID
+			});
+			cb();
+		})
+		.catch(err => console.log('Error storing messages', err));
+
 };

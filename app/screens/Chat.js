@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Container from '../componenets/Container';
 import ChatMessage from '../componenets/ChatMessage';
@@ -17,50 +17,43 @@ class Chat extends Component {
 		this.formatMessage = this.formatMessage.bind(this);
 	}
 
-	formatMessage(msg, room) {
-		return { msg, room };
-	}
+    formatMessage = (msg, room, time) => ({ msg, room, time });
 
-	sendMessage(msg) {
-		console.log(`Sending message => ${msg}`);
-		const formattedMessage = this.formatMessage(msg, this.props.room);
-		this.addLocalMessage({ msg, room: this.props.room });
-		socket.sendMessage(formattedMessage);
-	}
+    sendMessage(msg) {
+    	const timestamp = Math.floor(Date.now());
+    	const formattedMessage = this.formatMessage(msg, this.props.room, timestamp);
+    	this.addLocalMessage(formattedMessage);
+    	socket.sendMessage(formattedMessage);
+    }
 
-	addLocalMessage(msg) {
-		this.props.dispatch(newLocalMessage(msg, this.props._id));
-	}
+    addLocalMessage = msg => this.props.dispatch(newLocalMessage(msg, this.props._id));
 
-	render() {
-		const roomID = this.props.room;
-		const room = this.props.messages[roomID];
-		const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
+    render() {
+    	const roomID = this.props.room;
+    	const room = this.props.messages[roomID];
+    	const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
 
+    	return (
+    		<Container heading={title} back={Actions.pop} >
+    			<FlatList
+    				keyExtractor={(item, index) => 'key' + index}
+    				data={room.chat}
+    				renderItem={({ item, index }) => (
+    					<ChatMessage
+    						message={item.msg}
+    						time={item.time}
+    						user={item.sender}
+    						_id={this.props._id}
+    						prev={index - 1 >= 0 ? room.chat[index - 1].sender : false}
+    						next={room.chat.length >= index + 2 ? room.chat[index + 1].sender : false}
+    					/>
+    				)}
+    			/>
 
-		return (
-			<Container heading={title} back={Actions.pop} >
-				<ScrollView>
-					{
-						room.chat.map((item, index) => {
-
-							return (
-								<ChatMessage
-									message={item.msg}
-									user={item.sender}
-									key={index}
-									_id={this.props._id}
-									prev={index - 1 >= 0 ? room.chat[index - 1].sender : false}
-									next={room.chat.length >= index + 2 ? room.chat[index + 1].sender : false}
-								/>
-							);
-						})
-					}
-				</ScrollView>
-				<ChatInput sendMessage={this.sendMessage} />
-			</Container>
-		);
-	}
+    			<ChatInput sendMessage={this.sendMessage} />
+    		</Container>
+    	);
+    }
 }
 
 Chat.propTypes = {

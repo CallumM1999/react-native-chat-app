@@ -66,6 +66,8 @@ const messages = (state = defaultState(), action) => {
 			},
 
 		};
+	case 'CLEAR_MESSAGES':
+		return {};
 
 	default:
 		return state;

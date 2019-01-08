@@ -1,6 +1,8 @@
 import { AsyncStorage } from 'react-native';
 import jwt_decode from 'jwt-decode';
+import { SERVER_URL } from '../../config.json';
 
+const clearMessages = () => ({ type: 'CLEAR_MESSAGES' });
 const logout = () => ({ type: 'LOGOUT' });
 
 export const logoutRequest = () => async dispatch => {
@@ -8,7 +10,10 @@ export const logoutRequest = () => async dispatch => {
 	const msgKeys = keys.filter(item => (item.includes('msg__') || item === 'token'));
 
 	AsyncStorage.multiRemove(msgKeys)
-		.then(() => dispatch(logout()))
+		.then(() => {
+			dispatch(clearMessages());
+			dispatch(logout());
+		})
 		.catch(err => console.log('error clearing local storage', err));
 };
 
@@ -24,7 +29,7 @@ const login = ({ token, fname, lname, _id, email }) => ({
 export const loginRequest = (email, password) => dispatch => {
 	dispatch(loginLoading());
 
-	fetch('http://192.168.0.16:3000/login', {
+	fetch(SERVER_URL + '/login', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
 		body: JSON.stringify({ email, password })
@@ -49,9 +54,7 @@ export const loadToken = () => dispatch => {
 	AsyncStorage.getItem('token')
 		.then(token => {
 			if (token === null) return dispatch(tokenError('Token is null'));
-
 			const decoded = jwt_decode(token);
-
 			const timeStamp = new Date / 1000;
 
 			if (decoded.exp < timeStamp) {

@@ -3,6 +3,7 @@ import { View, Text, TouchableNativeFeedback, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import styles from '../styles/DashboardItem';
+import TimeAgo from 'react-native-timeago';
 
 const DashboardItem = props => (
 	<TouchableNativeFeedback
@@ -19,7 +20,11 @@ const DashboardItem = props => (
 				</View>
 			</View>
 			<View style={styles.right}>
-				<Text>{props.time}</Text>
+
+				{
+					!!props.time && <TimeAgo time={props.time} />
+				}
+
 			</View>
 		</View>
 	</TouchableNativeFeedback>

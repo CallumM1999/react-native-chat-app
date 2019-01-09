@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import getStyleSheet from '../styles/ChatMessage';
 import PropTypes from 'prop-types';
+import TimeAgo from 'react-native-timeago';
 
 const ChatMessage = ({ message, user, prev, next, _id, time }) => {
 	const frontCorner = prev !== user;
@@ -14,7 +15,8 @@ const ChatMessage = ({ message, user, prev, next, _id, time }) => {
 		<View style={styles.item} >
 			{(!currentUser && (next !== user || !next)) && <View style={styles.circle}></View>}
 			<View style={styles.message}>
-				<Text style={styles.messageText}>{message} : {time}</Text>
+				<Text style={styles.messageText}>{message}</Text>
+				<TimeAgo time={time} />
 			</View>
 		</View>
 	);

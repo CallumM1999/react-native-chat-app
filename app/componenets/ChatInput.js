@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		borderColor: '#eee',
 		borderTopWidth: 2,
-		padding: 5,
-	},
+		padding: 5
+	}
 });
 
 export default ChatInput;

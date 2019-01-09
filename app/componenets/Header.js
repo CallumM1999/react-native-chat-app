@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableNativeFeedback } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from '../styles/header';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Header = props => (
 	<View style={styles.container}>
@@ -11,7 +12,9 @@ const Header = props => (
 			!!props.back && (
 				<TouchableNativeFeedback onPress={props.back}>
 					<View style={styles.backButton}>
-						<Text style={styles.backButtonText}>Back</Text>
+						<Text style={styles.backButtonText}>
+							<Icon name='arrow-back' size={30} color='white' />
+						</Text>
 					</View>
 				</TouchableNativeFeedback>
 			)
@@ -21,7 +24,9 @@ const Header = props => (
 			!!props.openSettings && (
 				<TouchableNativeFeedback onPress={props.openSettings}>
 					<View style={styles.settings}>
-						<Text>(S)</Text>
+						<Text>
+							<Icon name='settings' size={30} color='white' />
+						</Text>
 					</View>
 				</TouchableNativeFeedback>
 			)

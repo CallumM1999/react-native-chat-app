@@ -12,6 +12,7 @@ import styles from '../styles/NewRoom';
 import SearchBox from '../componenets/SearchBox';
 import NewRoomOnlineUsers from '../componenets/NewRoomOnlineUsers';
 import NewRoomSearchResults from '../componenets/NewRoomSearchResults';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 class NewRoom extends Component {
@@ -68,6 +69,9 @@ class NewRoom extends Component {
     					onSubmitEditing={this.handleSearch}
     					clearSearch={this.clearSearch}
     				/>
+
+
+
 
     				<View style={styles.recommendedContainer}>
     					{

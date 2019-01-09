@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const FloatingButton = props => (
 	<TouchableNativeFeedback onPress={props.onPress}>
 		<View style={styles.add}>
-			<Text style={styles.addText}>+</Text>
+			<Text style={styles.addText}>
+				<Icon name='add' size={30} color='white' />
+
+			</Text>
 		</View>
 	</TouchableNativeFeedback>
 );

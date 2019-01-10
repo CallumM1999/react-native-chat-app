@@ -48,6 +48,7 @@ ChatInput.propTypes = {
 
 const styles = StyleSheet.create({
 	input: {
+		height: 60,
 		borderStyle: 'solid',
 		borderColor: '#eee',
 		borderTopWidth: 2,

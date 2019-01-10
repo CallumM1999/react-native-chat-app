@@ -14,26 +14,19 @@ const NewRoomOnlineUsers = props => (
 	<View>
 		<Text style={styles.headerText}>Online Users : {props.users.length}</Text>
 
-		{
-			props.users.length >= 1 ?
-				(
-					<FlatList
-						style={styles.userContainer}
-						data={props.users}
-						keyExtractor={(item, index) => 'key' + index}
-						renderItem={({ item }) => (
-							<NewRoomUser
-								user={item}
-								addConversation={props.addConversation}
-							/>
-						)}
-					/>
-				)
-				:
-				(
-					<NoUsers />
-				)
-		}
+		<FlatList
+			style={styles.userContainer}
+			data={props.users}
+			keyExtractor={(item, index) => 'key' + index}
+			ListEmptyComponent={NoUsers}
+			renderItem={({ item }) => (
+				<NewRoomUser
+					user={item}
+					addConversation={props.addConversation}
+				/>
+			)}
+		/>
+
 
 	</View>
 );

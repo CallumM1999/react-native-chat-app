@@ -35,12 +35,11 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 					{selected && (
 						<View style={styles.infoContainer}>
 
-							{!!status && (
-								<Text>{status} &nbsp;
+							<Text>{status} &nbsp;
     							<TimeAgo time={time} />
-									{status === 'failed' && <Text style={styles.resend}>&nbsp; Resend</Text>}
-								</Text>
-							)}
+								{status === 'failed' && <Text style={styles.resend}>&nbsp; Resend</Text>}
+							</Text>
+
 						</View>
 					)}
 
@@ -63,7 +62,7 @@ ChatMessage.propTypes = {
 	selectMessage: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
 	selected: PropTypes.bool.isRequired,
-	status: PropTypes.string.isRequired
+	status: PropTypes.string
 };
 
 export default ChatMessage;

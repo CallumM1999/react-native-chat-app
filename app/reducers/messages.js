@@ -63,6 +63,12 @@ const messages = (state = defaultState(), action) => {
 			}
 		};
 
+	case 'DELETE_CONVERSATION': {
+		const copy = Object.assign({}, state);
+		delete copy[action.room];
+		return copy;
+	}
+
 	default:
 		return state;
 	}

@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { FlatList, Modal, View, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import FloatingButton from '../componenets/FloatingButton';
 import Container from '../componenets/Container';
 import DashboardItem from '../componenets/DashboardItem';
-import { loadMessages } from '../actions/messages';
-import PropTypes from 'prop-types';
-
-
 import DashboardSettingsModal from '../componenets/DashboardSettingsModal';
+
+import { loadMessages, deleteConversation } from '../actions/messages';
+import PropTypes from 'prop-types';
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -17,16 +16,23 @@ class Dashboard extends Component {
 
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
+		this.deleteRoom = this.deleteRoom.bind(this);
 
 		this.state = {
-			modalOpen: false
-
+			modalOpen: false,
+			modalRoom: null
 		};
 	}
 
-    openModal = () => this.setState({ modalOpen: true })
-    closeModal = () => this.setState({ modalOpen: false })
+    openModal = room => this.setState({ modalOpen: true, modalRoom: room });
+    closeModal = () => this.setState({ modalOpen: false, modalRoom: null })
 
+
+    deleteRoom = room => {
+    	console.log('deleting room: ', room);
+    	this.props.dispatch(deleteConversation(room));
+    	this.closeModal();
+    }
 
     componentDidMount = () => this.props.dispatch(loadMessages());
 
@@ -57,13 +63,11 @@ class Dashboard extends Component {
 
     			<FloatingButton onPress={() => Actions.newRoom()} />
 
-
-
-
-
     			<DashboardSettingsModal
     				closeModal={this.closeModal}
     				visible={this.state.modalOpen}
+    				room={this.state.modalRoom}
+    				deleteRoom={this.deleteRoom}
     			/>
 
     		</Container>

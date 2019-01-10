@@ -127,3 +127,10 @@ export const updateMessageStatus = (room, index, status) => async dispatch => {
 		dispatch({ type: 'UPDATE_STATUS', room, index, status })
 	]);
 };
+
+export const deleteConversation = (room) => async dispatch => {
+	await Promise.all([
+		AsyncStorage.removeItem(`msg__${room}`),
+		dispatch({ type: 'DELETE_CONVERSATION', room })
+	]);
+};

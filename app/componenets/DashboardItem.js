@@ -10,7 +10,7 @@ const DashboardItem = props => (
 
 	<TouchableNativeFeedback
 		onPress={() => Actions.chat({ room: props.room })}
-		onLongPress={props.openModal}
+		onLongPress={() => props.openModal(props.room)}
 		background={TouchableNativeFeedback.SelectableBackground()}
 	>
 		<View style={styles.item} >

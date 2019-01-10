@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Modal, View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import FloatingButton from '../componenets/FloatingButton';
@@ -8,10 +8,25 @@ import DashboardItem from '../componenets/DashboardItem';
 import { loadMessages } from '../actions/messages';
 import PropTypes from 'prop-types';
 
+
+import DashboardSettingsModal from '../componenets/DashboardSettingsModal';
+
 class Dashboard extends Component {
 	constructor(props) {
 		super(props);
+
+		this.openModal = this.openModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+
+		this.state = {
+			modalOpen: false
+
+		};
 	}
+
+    openModal = () => this.setState({ modalOpen: true })
+    closeModal = () => this.setState({ modalOpen: false })
+
 
     componentDidMount = () => this.props.dispatch(loadMessages());
 
@@ -33,6 +48,7 @@ class Dashboard extends Component {
     							lastMessage={!!msg && msg.msg}
     							time={!!msg && msg.time}
     							room={item}
+    							openModal={this.openModal}
     						/>
     					);
     				}}
@@ -40,6 +56,16 @@ class Dashboard extends Component {
 
 
     			<FloatingButton onPress={() => Actions.newRoom()} />
+
+
+
+
+
+    			<DashboardSettingsModal
+    				closeModal={this.closeModal}
+    				visible={this.state.modalOpen}
+    			/>
+
     		</Container>
     	);
     }

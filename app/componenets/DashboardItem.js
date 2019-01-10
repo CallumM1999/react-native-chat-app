@@ -1,14 +1,16 @@
 import React from 'react';
-import { View, Text, TouchableNativeFeedback, Alert } from 'react-native';
+import { View, Text, TouchableNativeFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import styles from '../styles/DashboardItem';
 import TimeAgo from 'react-native-timeago';
 
 const DashboardItem = props => (
+
+
 	<TouchableNativeFeedback
 		onPress={() => Actions.chat({ room: props.room })}
-		onLongPress={() => Alert.alert('Hold Chat')}
+		onLongPress={props.openModal}
 		background={TouchableNativeFeedback.SelectableBackground()}
 	>
 		<View style={styles.item} >

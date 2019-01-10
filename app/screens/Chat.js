@@ -19,18 +19,19 @@ class Chat extends Component {
 
 		this.selectMessage = this.selectMessage.bind(this);
 
+
 		this.state = {
 			selected: null,
 			roomID: this.props.room,
 			room: this.props.messages[this.props.room],
 			chat: JSON.parse(JSON.stringify(this.props.messages[this.props.room].chat)).reverse(),
 
+
 		};
 
 		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${this.state.room.fname} ${this.state.room.lname}`;
 
 	}
-
 
 	componentWillReceiveProps({ messages, room }) {
 		console.log('update chat');

@@ -6,8 +6,9 @@ import ChatMessage from '../componenets/ChatMessage';
 import ChatInput from '../componenets/ChatInput';
 import socket from '../socket/socket';
 import { connect } from 'react-redux';
-import { newLocalMessage } from '../actions/messages';
+import { newLocalMessage, updateMessageStatus } from '../actions/messages';
 import PropTypes from 'prop-types';
+
 
 class Chat extends Component {
 	constructor(props) {
@@ -15,46 +16,87 @@ class Chat extends Component {
 		this.sendMessage = this.sendMessage.bind(this);
 		this.addLocalMessage = this.addLocalMessage.bind(this);
 		this.formatMessage = this.formatMessage.bind(this);
+
+		this.selectMessage = this.selectMessage.bind(this);
+
+		this.state = {
+			selected: null,
+			roomID: this.props.room,
+			room: this.props.messages[this.props.room],
+			chat: JSON.parse(JSON.stringify(this.props.messages[this.props.room].chat)).reverse(),
+
+		};
+
+		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${this.state.room.fname} ${this.state.room.lname}`;
+
 	}
 
-    formatMessage = (msg, room, time) => ({ msg, room, time });
+
+	componentWillReceiveProps({ messages, room }) {
+		console.log('update chat');
+
+		this.setState({
+			room: messages[room],
+			chat: JSON.parse(JSON.stringify(messages[room].chat)).reverse()
+		});
+
+	}
+
+
+    selectMessage = index => this.setState(prev => ({ selected: index === prev.selected ? null : index }));
+
+    formatMessage = (msg, room, time, status, index) => ({ msg, room, time, status, index });
 
     sendMessage(msg) {
+    	const index = this.props.messages[this.props.room].chat.length;
     	const timestamp = Math.floor(Date.now());
-    	const formattedMessage = this.formatMessage(msg, this.props.room, timestamp);
+    	const formattedMessage = this.formatMessage(msg, this.props.room, timestamp, 'sent', index);
+
     	this.addLocalMessage(formattedMessage);
-    	socket.sendMessage(formattedMessage);
+
+    	const status = setTimeout(() => {
+    		this.props.dispatch(updateMessageStatus(this.props.room, index, 'failed'));
+    	}, 1000);
+
+    	socket.sendMessage(formattedMessage, () => {
+    		clearTimeout(status);
+    		this.props.dispatch(updateMessageStatus(this.props.room, index, 'recieved'));
+    	});
     }
 
     addLocalMessage = msg => this.props.dispatch(newLocalMessage(msg, this.props._id));
 
-    render() {
-    	const roomID = this.props.room;
-    	const room = this.props.messages[roomID];
-    	const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
 
-    	return (
-    		<Container heading={title} back={Actions.pop} >
-    			<FlatList
-    				keyExtractor={(item, index) => 'key' + index}
-    				data={room.chat}
-    				renderItem={({ item, index }) => (
-    					<ChatMessage
-    						message={item.msg}
-    						time={item.time}
-    						user={item.sender}
-    						_id={this.props._id}
-    						prev={index - 1 >= 0 ? room.chat[index - 1].sender : false}
-    						next={room.chat.length >= index + 2 ? room.chat[index + 1].sender : false}
-    					/>
-    				)}
-    			/>
+    render = () => (
+    	<Container heading={this.title} back={Actions.pop} >
+    		<FlatList
+    			keyExtractor={(item, index) => 'key' + index}
+    			data={this.state.chat}
+    			extraData={this.state}
+    			animated={false}
+    			inverted={true}
+    			renderItem={({ item, index }) => (
+    				<ChatMessage
+    					selectMessage={this.selectMessage}
+    					selected={this.state.selected == index}
+    					index={index}
+    					msg={item.msg}
+    					time={item.time}
+    					user={item.sender}
+    					status={item.status}
+    					_id={this.props._id}
 
-    			<ChatInput sendMessage={this.sendMessage} />
-    		</Container>
-    	);
-    }
+    					next={index >= 1 ? this.state.chat[index - 1].sender : false}
+    					prev={this.state.chat.length >= index + 2 ? this.state.chat[index + 1].sender : false}
+    				/>
+    			)}
+    		/>
+
+    		<ChatInput sendMessage={this.sendMessage} />
+    	</Container>
+    )
 }
+
 
 Chat.propTypes = {
 	room: PropTypes.string.isRequired,

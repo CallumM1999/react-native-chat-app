@@ -19,7 +19,7 @@ class Socket {
 	}
 
     disconnect = () => this.socket.disconnect();
-    sendMessage = (message) => this.socket.emit('message', message, cb => console.log('message status', cb))
+    sendMessage = (message, cb) => this.socket.emit('message', message, res => cb(res))
     userSearch = (queryString, _id, cb) => this.socket.emit('userSearch', queryString, _id, cb)
     getRoomData = (room, cb) => this.socket.emit('getRoomData', room, data => cb(data))
 

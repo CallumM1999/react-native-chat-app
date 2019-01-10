@@ -2,8 +2,8 @@ import { AsyncStorage } from 'react-native';
 import store from '../store/configureStore';
 import socket from '../socket/socket';
 
-export const newLocalMessage = ({ msg, room, time }, userID) => async dispatch => {
-	const formattedMessage = { msg, room, sender: userID, time };
+export const newLocalMessage = ({ msg, room, time, status }, userID) => async dispatch => {
+	const formattedMessage = { msg, room, sender: userID, time, status };
 	storeMessage(formattedMessage);
 	dispatch({
 		type: 'LOCAL_MESSAGE',
@@ -108,16 +108,22 @@ export const addRoom = ({ fname, lname, userID }, cb) => dispatch => {
 
 	AsyncStorage.setItem(`msg__${userID}`, JSON.stringify(roomData))
 		.then(() => {
-			dispatch({
-				type: 'ADD_ROOM',
-				fname,
-				lname,
-				_id: userID,
-				roomType: 'user',
-				room: userID
-			});
+			dispatch(newRoom(userID, fname, lname, []));
 			cb();
 		})
 		.catch(err => console.log('Error storing messages', err));
 
+};
+
+export const updateMessageStatus = (room, index, status) => async dispatch => {
+	// console.log(`updating message ${index} in room:${room} to status : ${status}`);
+
+	const roomJSON = await AsyncStorage.getItem(`msg__${room}`);
+	const roomData = JSON.parse(roomJSON);
+	const updatedChat = roomData.chat.map((item, indx) => indx === index ? { ...item, status } : item);
+
+	await Promise.all([
+		AsyncStorage.setItem(`msg__${room}`, JSON.stringify({ ...roomData, chat: updatedChat })),
+		dispatch({ type: 'UPDATE_STATUS', room, index, status })
+	]);
 };

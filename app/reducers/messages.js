@@ -42,7 +42,6 @@ const messages = (state = defaultState(), action) => {
 		return {
 			...state,
 			[action.room]: {
-				// title: action.title,
 				fname: action.fname,
 				lname: action.lname,
 				roomType: action.roomType,
@@ -52,22 +51,17 @@ const messages = (state = defaultState(), action) => {
 			}
 		};
 
-	case 'ADD_ROOM':
+	case 'CLEAR_MESSAGES':
+		return {};
+
+	case 'UPDATE_STATUS':
 		return {
 			...state,
 			[action.room]: {
-				fname: action.fname,
-				lname: action.lname,
-				nickname: undefined,
-				_id: action._id,
-				roomType: action.roomType,
-				room: action.room,
-				chat: []
-			},
-
+				...state[action.room],
+				chat: state[action.room].chat.map((item, index) => index === action.index ? { ...item, status: action.status } : item)
+			}
 		};
-	case 'CLEAR_MESSAGES':
-		return {};
 
 	default:
 		return state;

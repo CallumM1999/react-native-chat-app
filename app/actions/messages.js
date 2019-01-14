@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import store from '../store/configureStore';
 import socket from '../socket/socket';
+import PushNotification from 'react-native-push-notification';
 
 export const newLocalMessage = ({ msg, room, time, status }, userID) => async dispatch => {
 	const formattedMessage = { msg, room, sender: userID, time, status };
@@ -40,6 +41,7 @@ export const missedMessages = messages => async dispatch => {
 	for (let i = 0; i < msgCount; i++) {
 		await handleMissedMessage(messages[i], dispatch);
 	}
+	missedMessagesNotification(msgCount);
 };
 
 export const newMessage = message => async dispatch => {
@@ -49,11 +51,14 @@ export const newMessage = message => async dispatch => {
 
 	if (hasKey) {
 		await storeMessage(message);
-		dispatch({ type: 'NEW_MESSAGE', message });
+		await dispatch({ type: 'NEW_MESSAGE', message });
+		const { fname, lname } = state.messages[message.room];
+		messageNotification(message.msg, `${fname} ${lname}`, message.room);
 	} else {
 		const roomData = await getRoomData(message.room);
 		await storeMessage(message, roomData);
-		dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
+		await dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
+		messageNotification(message.msg, `${roomData.fname} ${roomData.lname}`, message.room);
 	}
 };
 
@@ -133,4 +138,48 @@ export const deleteConversation = (room) => async dispatch => {
 		AsyncStorage.removeItem(`msg__${room}`),
 		dispatch({ type: 'DELETE_CONVERSATION', room })
 	]);
+};
+
+
+const missedMessagesNotification = count => {
+	PushNotification.localNotification({
+		// id,
+		color: 'red',
+		// title: `Message from ${sender}`, // (optional)
+		message: `You have ${count} missed messages`, // (required)
+		actions: ['reply']
+	});
+};
+
+// const notificationIndexes = {};
+
+
+const messageNotification = (msg, sender, room) => {
+	// console.log('ROOOMMMM', room);
+
+
+	// if (notificationIndexes.hasOwnProperty(room)) {
+	// 	console.log('has property', notificationIndexes[room]);
+	// } else {
+	// 	notificationIndexes[room] = Object.keys(notificationIndexes).length;
+	// 	console.log('set index', notificationIndexes[room]);
+	// }
+
+	// const id = notificationIndexes[room];
+
+	// PushNotification.cancelLocalNotifications({ id });
+
+	// cannot clear notifications by id
+
+	// PushNotification.cancelAllLocalNotifications();
+
+
+	PushNotification.localNotification({
+		// id,
+		color: 'red',
+		title: `Message from ${sender}`, // (optional)
+		message: msg, // (required)
+		actions: ['reply']
+	});
+
 };

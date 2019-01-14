@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import jwt_decode from 'jwt-decode';
-import { SERVER_URL } from '../../config.json';
+import { LOCAL_URL } from '../../config.json';
 
 const clearMessages = () => ({ type: 'CLEAR_MESSAGES' });
 const logout = () => ({ type: 'LOGOUT' });
@@ -29,7 +29,7 @@ const login = ({ token, fname, lname, _id, email }) => ({
 export const loginRequest = (email, password) => dispatch => {
 	dispatch(loginLoading());
 
-	fetch(SERVER_URL + '/login', {
+	fetch(LOCAL_URL + '/login', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
 		body: JSON.stringify({ email, password })

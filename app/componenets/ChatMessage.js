@@ -36,7 +36,7 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 						<View style={styles.infoContainer}>
 
 							<Text>{status} &nbsp;
-    							<TimeAgo time={time} />
+    							<TimeAgo time={parseInt(time)} />
 								{status === 'failed' && <Text style={styles.resend}>&nbsp; Resend</Text>}
 							</Text>
 

@@ -6,8 +6,6 @@ import styles from '../styles/DashboardItem';
 import TimeAgo from 'react-native-timeago';
 
 const DashboardItem = props => (
-
-
 	<TouchableNativeFeedback
 		onPress={() => Actions.chat({ room: props.room })}
 		onLongPress={() => props.openModal(props.room)}
@@ -24,13 +22,14 @@ const DashboardItem = props => (
 			<View style={styles.right}>
 
 				{
-					!!props.time && <TimeAgo time={props.time} />
+					!!props.time && <TimeAgo time={parseInt(props.time)} />
 				}
 
 			</View>
 		</View>
 	</TouchableNativeFeedback>
 );
+
 
 DashboardItem.propTypes = {
 	room: PropTypes.string.isRequired,

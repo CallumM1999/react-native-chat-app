@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import { newMessage, missedMessages } from '../actions/messages';
 import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
-import { SERVER_URL } from '../../config.json';
+import { LOCAL_URL } from '../../config.json';
 
 class Socket {
 	constructor() {
@@ -14,7 +14,7 @@ class Socket {
 	}
 
 	connect(token) {
-		this.socket = io.connect(SERVER_URL, { jsonp: false, secure: true, query: { token } });
+		this.socket = io.connect(LOCAL_URL, { jsonp: false, secure: true, query: { token } });
 		this.handleConnection();
 	}
 
@@ -28,7 +28,7 @@ class Socket {
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
     	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
     	this.socket.on('disconnect', () => console.log('disconnected'));
-    	this.socket.on('sendMessageToClients', messages => store.dispatch(newMessage(messages)));
+    	this.socket.on('sendMessageToClients', message => store.dispatch(newMessage(message)));
 
     	this.socket.on('clientMissedMessages', messages => {
     		console.log('missed messages', messages);

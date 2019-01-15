@@ -69,6 +69,19 @@ const messages = (state = defaultState(), action) => {
 		return copy;
 	}
 
+	case 'RESEND_MESSAGE':
+		return {
+			...state,
+			[action.room]: {
+				...state[action.room],
+				chat: [
+					...state[action.room].chat.filter((item, index) => index !== action.index),
+					action.message
+				]
+
+			}
+		};
+
 	default:
 		return state;
 	}

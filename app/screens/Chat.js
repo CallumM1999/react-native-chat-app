@@ -6,7 +6,7 @@ import ChatMessage from '../componenets/ChatMessage';
 import ChatInput from '../componenets/ChatInput';
 import socket from '../socket/socket';
 import { connect } from 'react-redux';
-import { newLocalMessage, updateMessageStatus } from '../actions/messages';
+import { newLocalMessage, updateMessageStatus, resendMessage } from '../actions/messages';
 import PropTypes from 'prop-types';
 
 
@@ -17,6 +17,7 @@ class Chat extends Component {
 		this.addLocalMessage = this.addLocalMessage.bind(this);
 		this.formatMessage = this.formatMessage.bind(this);
 		this.selectMessage = this.selectMessage.bind(this);
+		this.resendMessage = this.resendMessage.bind(this);
 
 		this.state = {
 			selected: null,
@@ -59,6 +60,25 @@ class Chat extends Component {
     	});
     }
 
+    resendMessage(index) {
+    	// remove message, then add to end of messages
+    	const newIndex = this.props.messages[this.props.room].chat.length - 1;
+    	const actualIndex = newIndex - index;
+    	const timestamp = Math.floor(Date.now());
+    	const message = { ...this.props.messages[this.props.room].chat[actualIndex], time: timestamp, status: 'sent' };
+
+    	this.props.dispatch(resendMessage(this.props.room, message, actualIndex));
+
+    	const status = setTimeout(() => {
+    		this.props.dispatch(updateMessageStatus(this.props.room, newIndex, 'failed'));
+    	}, 1000);
+
+    	socket.sendMessage(message, () => {
+    		clearTimeout(status);
+    		this.props.dispatch(updateMessageStatus(this.props.room, newIndex, 'recieved'));
+    	});
+    }
+
     addLocalMessage = msg => this.props.dispatch(newLocalMessage(msg, this.props._id));
 
     render = () => (
@@ -80,6 +100,7 @@ class Chat extends Component {
     					user={item.sender}
     					status={item.status}
     					_id={this.props._id}
+    					resendMessage={this.resendMessage}
 
     					next={index >= 1 ? this.state.chat[index - 1].sender : false}
     					prev={this.state.chat.length >= index + 2 ? this.state.chat[index + 1].sender : false}

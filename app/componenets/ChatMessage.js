@@ -4,7 +4,7 @@ import getStyleSheet from '../styles/ChatMessage';
 import PropTypes from 'prop-types';
 import TimeAgo from 'react-native-timeago';
 
-const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, status, msg, time }) => {
+const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, status, msg, time, resendMessage }) => {
 
 	const frontCorner = prev !== user;
 	const backCorner = next !== user;
@@ -43,7 +43,11 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 
 							<Text>{status} &nbsp;
     							<TimeAgo time={parseInt(time)} />
-								{status === 'failed' && <Text style={styles.resend}>&nbsp; Resend</Text>}
+								{status === 'failed' && (
+									<TouchableWithoutFeedback onPress={() => resendMessage(index)}>
+										<Text style={styles.resend}>&nbsp; Resend</Text>
+									</TouchableWithoutFeedback>
+								)}
 							</Text>
 
 						</View>

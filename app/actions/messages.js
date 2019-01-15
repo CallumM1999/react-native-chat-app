@@ -13,11 +13,11 @@ export const newLocalMessage = ({ msg, room, time, status }, userID) => async di
 	});
 };
 
-const getRoomData = room => new Promise((resolve, reject) => {
+const getRoomData = room => new Promise((resolve) => {
 	socket.getRoomData(room, cb => resolve(cb));
 });
 
-const handleMissedMessage = (message, dispatch) => new Promise(async (resolve, reject) => {
+const handleMissedMessage = (message, dispatch) => new Promise(async (resolve) => {
 	console.log('handle message', message);
 
 	const state = store.getState();
@@ -182,4 +182,18 @@ const messageNotification = (msg, sender, room) => {
 		actions: ['reply']
 	});
 
+
+
+};
+
+
+export const resendMessage = (room, message, index) => dispatch => {
+	// console.log('res', message)
+
+	dispatch({
+		type: 'RESEND_MESSAGE',
+		message,
+		index,
+		room
+	});
 };

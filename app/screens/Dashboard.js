@@ -41,7 +41,7 @@ class Dashboard extends Component {
     		<Container heading='Dashboard' openSettings={() => Actions.settings()}>
     			<FlatList
     				keyExtractor={(item, index) => 'key' + index}
-    				data={Object.keys(this.props.messages)}
+    				data={Object.keys(this.props.messages).sort((a, b) => this.props.messages[b].chat[this.props.messages[b].chat.length - 1].time - this.props.messages[a].chat[this.props.messages[a].chat.length - 1].time)}
 
     				renderItem={({ item }) => {
     					const room = this.props.messages[item];

@@ -18,6 +18,7 @@ class Socket {
 		this.handleConnection();
 	}
 
+    status = () => this.socket.connected;
     disconnect = () => this.socket.disconnect();
     sendMessage = (message, cb) => this.socket.emit('message', message, res => cb(res))
     userSearch = (queryString, _id, cb) => this.socket.emit('userSearch', queryString, _id, cb)

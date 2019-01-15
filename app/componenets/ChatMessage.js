@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Clipboard } from 'react-native';
 import getStyleSheet from '../styles/ChatMessage';
 import PropTypes from 'prop-types';
 import TimeAgo from 'react-native-timeago';
@@ -20,7 +20,13 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 
 			{(!currentUser && (backCorner || !next)) && <View style={styles.circle}></View>}
 
-			<TouchableWithoutFeedback onPress={() => selectMessage(index)} >
+			<TouchableWithoutFeedback
+				onPress={() => selectMessage(index)}
+				onLongPress={async () => {
+					await Clipboard.setString(msg);
+					alert('Copied to Clipboard!');
+				}}
+			>
 				<View>
 
 					<View style={[

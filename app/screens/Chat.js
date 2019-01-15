@@ -16,9 +16,7 @@ class Chat extends Component {
 		this.sendMessage = this.sendMessage.bind(this);
 		this.addLocalMessage = this.addLocalMessage.bind(this);
 		this.formatMessage = this.formatMessage.bind(this);
-
 		this.selectMessage = this.selectMessage.bind(this);
-
 
 		this.state = {
 			selected: null,
@@ -28,17 +26,15 @@ class Chat extends Component {
 		};
 
 		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${this.state.room.fname} ${this.state.room.lname}`;
-
 	}
 
 	componentWillReceiveProps({ messages, room }) {
-		console.log('update chat');
-
-		this.setState({
+		const diff = messages[room].chat.length - this.state.chat.length;
+		this.setState(prev => ({
 			room: messages[room],
-			chat: JSON.parse(JSON.stringify(messages[room].chat)).reverse()
-		});
-
+			chat: JSON.parse(JSON.stringify(messages[room].chat)).reverse(),
+			selected: !prev.selected ? null : prev.selected + diff
+		}));
 	}
 
 
@@ -67,8 +63,6 @@ class Chat extends Component {
 
     render = () => (
     	<Container heading={this.title} back={Actions.pop} >
-
-
     		<FlatList
     			keyExtractor={(item, index) => 'key' + index}
     			data={this.state.chat}
@@ -106,8 +100,6 @@ Chat.propTypes = {
 	_id: PropTypes.string.isRequired,
 	messages: PropTypes.object.isRequired
 };
-
-// const styles = StyleSheet.create({});
 
 const mapStateToProps = ({ messages, auth }) => ({
 	messages: messages,

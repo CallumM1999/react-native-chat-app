@@ -1,80 +1,90 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableNativeFeedback } from 'react-native';
+import { Text, View, TouchableWithoutFeedback, Linking, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Container from '../componenets/Container';
+import LoginField from '../componenets/LoginField';
+import LoginSubmit from '../componenets/LoginSubmit';
+
 import Loading from '../componenets/Loading';
 import { loadToken, loginRequest, loginError } from '../actions/auth';
 import styles from '../styles/Login';
 import PropTypes from 'prop-types';
+
+import { LOCAL_URL } from '../../config.json';
 
 class Login extends Component {
 	constructor(props) {
 		super(props);
 
 		this.handleLogin = this.handleLogin.bind(this);
-
+		this.handleLink = this.handleLink.bind(this);
 		this.state = { email: null, password: null };
 	}
 
-	componentDidMount() {
-		this.props.dispatch(loadToken());
-	}
+    componentDidMount = () => this.props.dispatch(loadToken());
 
-	handleLogin() {
-		if (this.props.loginLoading) return console.log('Waiting for previous request');
+    handleLogin() {
+    	if (this.props.loginLoading) return console.log('Waiting for previous request');
 
-		const { email, password } = this.state;
-		let error = false;
+    	const { email, password } = this.state;
+    	let error = false;
 
-		if (!password || !email) {
-			error = true;
-			this.props.dispatch(loginError(`Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`));
-		}
+    	if (!password || !email) {
+    		error = true;
+    		this.props.dispatch(loginError(`Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`));
+    	}
 
-		if (error) return;
+    	if (error) return;
 
-		this.setState({ error: null }, this.props.dispatch(loginRequest(email, password)));
-	}
+    	this.setState({ error: null }, this.props.dispatch(loginRequest(email, password)));
+    }
 
-	render() {
-		if (this.props.tokenLoading) return <Loading />;
+    handleLink() {
+    	Linking.openURL(`${LOCAL_URL}/register`)
+    		.catch(err => console.error('An error occurred', err));
+    }
 
-		return (
-			<Container heading='Login' >
-				<View style={styles.container}>
+    render() {
+    	if (this.props.tokenLoading) return <Loading />;
 
-					<TextInput
-						style={styles.input}
-						placeholder='Email'
-						value={this.state.email}
-						onChangeText={(text) => this.setState({ email: text })}
-						onSubmitEditing={this.handleLogin}
-					></TextInput>
+    	return (
+    		<Container heading='Login' >
+    			<ScrollView style={{ flexDirection: 'column' }}>
 
-					<TextInput
-						style={styles.input}
-						placeholder='Password'
-						value={this.state.password}
-						onChangeText={(text) => this.setState({ password: text })}
+    				<View style={styles.registerContainer}>
+    					<TouchableWithoutFeedback onPress={this.handleLink} >
+    						<View>
+    							<Text style={styles.registerText}>Register</Text>
+    						</View>
+    					</TouchableWithoutFeedback>
+    				</View>
 
-						onSubmitEditing={this.handleLogin}
-						secureTextEntry
-					></TextInput>
+    				<View style={styles.container}>
+    					<LoginField
+    						label='Email'
+    						value={this.state.email}
+    						onChangeText={text => this.setState({ email: text })}
+    						onSubmitEditing={this.handleLogin}
+    					/>
 
-					{this.props.loginError && <Text style={styles.error}>{this.props.loginError}</Text>}
+    					<LoginField
+    						label='Password'
+    						value={this.state.password}
+    						onChangeText={text => this.setState({ password: text })}
+    						onSubmitEditing={this.handleLogin}
+    						secureTextEntry
+    					/>
 
-					<Text style={styles.loading}>{this.props.loginLoading && 'Loading...'}</Text>
+    					{this.props.loginError && <Text style={styles.error}>{this.props.loginError}</Text>}
+    					<Text style={styles.loading}>{this.props.loginLoading && 'Loading...'}</Text>
+    					<LoginSubmit handleLogin={this.handleLogin} />
+    				</View>
 
-					<TouchableNativeFeedback onPress={this.handleLogin} >
-						<View style={styles.submit}>
-							<Text style={styles.submitText} >LOGIN</Text>
-						</View>
-					</TouchableNativeFeedback>
+    			</ScrollView>
+    		</Container>
 
-				</View>
-			</Container>
-		);
-	}
+    	);
+    }
 }
 
 Login.propTypes = {

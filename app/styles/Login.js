@@ -9,14 +9,10 @@ const styles = StyleSheet.create({
 	container: {
 		padding: 10,
 		borderRadius: 4,
-		marginHorizontal: 10
+		marginHorizontal: 10,
+		// backgroundColor: 'purple'
 	},
-	input: {
-		marginTop: 40,
-		backgroundColor: '#ddd',
-		borderRadius: 4,
-		paddingHorizontal: 10,
-	},
+
 	loading: {
 		fontSize: 20,
 		marginTop: 20,
@@ -29,7 +25,7 @@ const styles = StyleSheet.create({
 		borderRadius: 3
 	},
 	submit: {
-		backgroundColor: '#999',
+		backgroundColor: '#34A853',
 		width: '100%',
 		padding: 10,
 		borderRadius: 5,
@@ -38,9 +34,40 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 	submitText: {
-		fontSize: 26,
+		color: 'white',
+		fontSize: 20,
 		fontWeight: '200',
+	},
+
+
+	inputContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		marginBottom: 20
+	},
+	inputText: {
+		fontSize: 20,
+		marginHorizontal: 10
+	},
+	inputField: {
+		marginTop: 10,
+		backgroundColor: '#ddd',
+		borderRadius: 4,
+		paddingHorizontal: 10,
+	},
+
+	registerContainer: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		flexDirection: 'row',
+		paddingHorizontal: 20,
+		paddingVertical: 10
+	},
+	registerText: {
+		color: '#0d8898',
+		fontSize: 20
 	}
+
 });
 
 export default styles;

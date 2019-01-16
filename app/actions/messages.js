@@ -187,13 +187,16 @@ const messageNotification = (msg, sender, room) => {
 };
 
 
-export const resendMessage = (room, message, index) => dispatch => {
-	// console.log('res', message)
+export const resendMessage = (room, message, index) => async dispatch => {
+	const roomJSON = await AsyncStorage.getItem(`msg__${room}`);
+	const roomData = JSON.parse(roomJSON);
+	const updatedChat = roomData.chat.filter((undefined, indx) => indx !== index);
+	updatedChat.push(message);
 
-	dispatch({
-		type: 'RESEND_MESSAGE',
-		message,
-		index,
-		room
-	});
+	await Promise.all([
+		AsyncStorage.setItem(`msg__${room}`, JSON.stringify({ ...roomData, chat: updatedChat })),
+		dispatch({ type: 'RESEND_MESSAGE', message, index, room })
+	]);
+
+
 };

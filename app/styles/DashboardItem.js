@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		alignItems: 'center'
 	},
+	itemUnread: {
+		backgroundColor: '#eee',
+
+		fontWeight: 'bold'
+	},
 	circle: {
 		backgroundColor: 'red',
 		width: 70,
@@ -40,8 +45,17 @@ const styles = StyleSheet.create({
 		fontWeight: '600',
 		fontSize: 22
 	},
+	nameUnread: {
+		fontWeight: 'bold',
+		fontSize: 24
+
+	},
 	message: {
 		fontSize: 18,
+	},
+	messageUnread: {
+		fontWeight: 'bold'
+
 	},
 });
 

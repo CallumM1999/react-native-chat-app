@@ -18,7 +18,7 @@ const LoginField = props => (
 
 LoginField.propTypes = {
 	label: PropTypes.string.isRequired,
-	value: PropTypes.string.isRequired,
+	value: PropTypes.string,
 	onChangeText: PropTypes.func.isRequired,
 	onSubmitEditing: PropTypes.func.isRequired,
 	secureTextEntry: PropTypes.bool

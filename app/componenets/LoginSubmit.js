@@ -12,7 +12,7 @@ const LoginSubmit = props => (
 );
 
 LoginSubmit.propTypes = {
-	handleLogin: <PropTypes className="func isRe"></PropTypes>
+	handleLogin: PropTypes.func.isRequired
 };
 
 export default LoginSubmit;

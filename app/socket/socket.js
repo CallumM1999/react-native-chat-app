@@ -3,6 +3,7 @@ import { newMessage, missedMessages } from '../actions/messages';
 import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
 import { LOCAL_URL } from '../../config.json';
+import { addMessage } from '../actions/unread';
 
 class Socket {
 	constructor() {
@@ -29,7 +30,12 @@ class Socket {
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
     	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
     	this.socket.on('disconnect', () => console.log('disconnected'));
-    	this.socket.on('sendMessageToClients', message => store.dispatch(newMessage(message)));
+    	this.socket.on('sendMessageToClients', async message => {
+    		await Promise.all([
+    			store.dispatch(addMessage(message)),
+    			store.dispatch(newMessage(message))
+    		]);
+    	});
 
     	this.socket.on('clientMissedMessages', messages => {
     		console.log('missed messages', messages);

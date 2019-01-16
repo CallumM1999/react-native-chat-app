@@ -8,6 +8,7 @@ import DashboardItem from '../componenets/DashboardItem';
 import DashboardSettingsModal from '../componenets/DashboardSettingsModal';
 
 import { loadMessages, deleteConversation } from '../actions/messages';
+import { openRoom } from '../actions/unread';
 import PropTypes from 'prop-types';
 
 class Dashboard extends Component {
@@ -17,6 +18,7 @@ class Dashboard extends Component {
 		this.openModal = this.openModal.bind(this);
 		this.closeModal = this.closeModal.bind(this);
 		this.deleteRoom = this.deleteRoom.bind(this);
+		this.openRoom = this.openRoom.bind(this);
 
 		this.state = {
 			modalOpen: false,
@@ -29,9 +31,13 @@ class Dashboard extends Component {
 
 
     deleteRoom = room => {
-    	console.log('deleting room: ', room);
     	this.props.dispatch(deleteConversation(room));
     	this.closeModal();
+    }
+
+    openRoom(room) {
+    	Actions.chat({ room });
+    	this.props.dispatch(openRoom(room));
     }
 
     componentDidMount = () => this.props.dispatch(loadMessages());
@@ -55,6 +61,8 @@ class Dashboard extends Component {
     							time={!!msg && msg.time}
     							room={item}
     							openModal={this.openModal}
+    							openRoom={this.openRoom}
+    							unread={this.props.unread.hasOwnProperty(item)}
     						/>
     					);
     				}}
@@ -82,8 +90,9 @@ Dashboard.propTypes = {
 	messages: PropTypes.object
 };
 
-const mapStateToProps = ({ messages }) => ({
-	messages
+const mapStateToProps = ({ messages, unread }) => ({
+	messages,
+	unread
 });
 
 export default connect(mapStateToProps)(Dashboard);

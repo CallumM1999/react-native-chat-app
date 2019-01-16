@@ -7,16 +7,19 @@ import TimeAgo from 'react-native-timeago';
 
 const DashboardItem = props => (
 	<TouchableNativeFeedback
-		onPress={() => Actions.chat({ room: props.room })}
+		onPress={() => props.openRoom(props.room)}
 		onLongPress={() => props.openModal(props.room)}
 		background={TouchableNativeFeedback.SelectableBackground()}
 	>
-		<View style={styles.item} >
+		<View style={[
+			styles.item,
+			(props.unread && styles.itemUnread)
+		]} >
 			<View style={styles.left}>
 				<View style={styles.circle} />
 				<View style={styles.text}>
-					<Text style={styles.name}>{props.title}</Text>
-					<Text style={styles.message} numberOfLines={1}>{props.lastMessage}</Text>
+					<Text style={[styles.name, (props.unread && styles.nameUnread)]}>{props.title}</Text>
+					<Text style={[styles.message, (props.unread && styles.messageUnread)]} numberOfLines={1}>{props.lastMessage}</Text>
 				</View>
 			</View>
 			<View style={styles.right}>

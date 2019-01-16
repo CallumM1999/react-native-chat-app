@@ -8,7 +8,7 @@ import socket from '../socket/socket';
 import { connect } from 'react-redux';
 import { newLocalMessage, updateMessageStatus, resendMessage } from '../actions/messages';
 import PropTypes from 'prop-types';
-
+import { openRoom } from '../actions/unread';
 
 class Chat extends Component {
 	constructor(props) {
@@ -29,7 +29,11 @@ class Chat extends Component {
 		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${this.state.room.fname} ${this.state.room.lname}`;
 	}
 
-	componentWillReceiveProps({ messages, room }) {
+	componentWillReceiveProps({ messages, room, unread }) {
+		if (unread.hasOwnProperty(this.props.room)) {
+			this.props.dispatch(openRoom(this.props.room));
+		}
+
 		const diff = messages[room].chat.length - this.state.chat.length;
 		this.setState(prev => ({
 			room: messages[room],
@@ -122,9 +126,10 @@ Chat.propTypes = {
 	messages: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ messages, auth }) => ({
-	messages: messages,
-	_id: auth._id
+const mapStateToProps = ({ messages, auth, unread }) => ({
+	messages,
+	_id: auth._id,
+	unread
 });
 
 export default connect(mapStateToProps)(Chat);

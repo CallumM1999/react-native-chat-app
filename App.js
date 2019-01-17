@@ -7,18 +7,27 @@ import BackgroundTimer from 'react-native-background-timer';
 import AppRouter from './app/router/router';
 
 const runTimeout = () => {
+	let connecting = false;
+
 	const func = () => BackgroundTimer.setTimeout(() => {
 		const state = store.getState();
 
 		if (!state.auth.loggedIn) return func();
 
-		if (socket.status()) {
+		if (connecting && socket.status()) {
+			console.log('connected set true');
+			connecting = false;
+			func();
+		} else if (socket.status()) {
+			console.log('continue');
 			func();
 		} else {
 			console.log('Attempting to reconnect');
+			connecting = true;
 			socket.connect(state.auth.token);
 			func();
 		}
+
 	}, 1000);
 	func();
 };

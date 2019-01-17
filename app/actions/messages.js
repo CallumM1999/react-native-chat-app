@@ -2,6 +2,9 @@ import { AsyncStorage } from 'react-native';
 import store from '../store/configureStore';
 import socket from '../socket/socket';
 import PushNotification from 'react-native-push-notification';
+import configureNotification from '../notifications/configureNotification';
+
+configureNotification();
 
 export const newLocalMessage = ({ msg, room, time, status }, userID) => async dispatch => {
 	const formattedMessage = { msg, room, sender: userID, time, status };
@@ -143,49 +146,21 @@ export const deleteConversation = (room) => async dispatch => {
 
 const missedMessagesNotification = count => {
 	PushNotification.localNotification({
-		// id,
 		color: 'red',
-		// title: `Message from ${sender}`, // (optional)
 		message: `You have ${count} missed messages`, // (required)
 		actions: ['reply']
 	});
 };
 
-// const notificationIndexes = {};
-
-
 const messageNotification = (msg, sender, room) => {
-	// console.log('ROOOMMMM', room);
-
-
-	// if (notificationIndexes.hasOwnProperty(room)) {
-	// 	console.log('has property', notificationIndexes[room]);
-	// } else {
-	// 	notificationIndexes[room] = Object.keys(notificationIndexes).length;
-	// 	console.log('set index', notificationIndexes[room]);
-	// }
-
-	// const id = notificationIndexes[room];
-
-	// PushNotification.cancelLocalNotifications({ id });
-
-	// cannot clear notifications by id
-
-	// PushNotification.cancelAllLocalNotifications();
-
-
 	PushNotification.localNotification({
-		// id,
+		room,
 		color: 'red',
-		title: `Message from ${sender}`, // (optional)
-		message: msg, // (required)
-		actions: ['reply']
+		title: `Message from ${sender}`,
+		message: msg,
+		actions: ['reply'],
 	});
-
-
-
 };
-
 
 export const resendMessage = (room, message, index) => async dispatch => {
 	const roomJSON = await AsyncStorage.getItem(`msg__${room}`);
@@ -197,6 +172,4 @@ export const resendMessage = (room, message, index) => async dispatch => {
 		AsyncStorage.setItem(`msg__${room}`, JSON.stringify({ ...roomData, chat: updatedChat })),
 		dispatch({ type: 'RESEND_MESSAGE', message, index, room })
 	]);
-
-
 };

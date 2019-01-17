@@ -4,6 +4,7 @@ import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
 import { LOCAL_URL } from '../../config.json';
 import { addMessage } from '../actions/unread';
+import { Alert } from 'react-native';
 
 class Socket {
 	constructor() {
@@ -26,7 +27,7 @@ class Socket {
     getRoomData = (room, cb) => this.socket.emit('getRoomData', room, data => cb(data))
 
     handleConnection() {
-    	this.socket.on('error', message => console.log('SOCKET ERROR:', message));
+    	this.socket.on('error', message => Alert.alert('SOCKET ERROR:', message));
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
     	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
     	this.socket.on('disconnect', () => console.log('disconnected'));

@@ -10,7 +10,7 @@ import { loadToken, loginRequest, loginError } from '../actions/auth';
 import styles from '../styles/Login';
 import PropTypes from 'prop-types';
 
-import { LOCAL_URL } from '../../config.json';
+import { REMOTE_URL } from '../../config.json';
 
 class Login extends Component {
 	constructor(props) {
@@ -40,7 +40,7 @@ class Login extends Component {
     }
 
     handleLink() {
-    	Linking.openURL(`${LOCAL_URL}/register`)
+    	Linking.openURL(`${REMOTE_URL}/register`)
     		.catch(err => console.error('An error occurred', err));
     }
 

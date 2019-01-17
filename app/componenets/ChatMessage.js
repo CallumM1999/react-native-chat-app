@@ -3,6 +3,8 @@ import { View, Text, TouchableWithoutFeedback, Clipboard } from 'react-native';
 import getStyleSheet from '../styles/ChatMessage';
 import PropTypes from 'prop-types';
 import TimeAgo from 'react-native-timeago';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, status, msg, time, resendMessage }) => {
 
@@ -18,7 +20,7 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 			(selected && styles.messageContainerSelected),
 		]} >
 
-			{(!currentUser && (backCorner || !next)) && <View style={styles.circle}></View>}
+			{(!currentUser && (backCorner || !next)) && <View style={styles.circle}><Icon name='account-circle' size={40} color='black' style={{}} /></View>}
 
 			<TouchableWithoutFeedback
 				onPress={() => selectMessage(index)}

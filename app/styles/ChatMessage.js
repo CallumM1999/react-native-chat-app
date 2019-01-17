@@ -37,12 +37,14 @@ const styles = props => StyleSheet.create({
 		color: props.user ? '#222' : '#fff',
 	},
 	circle: {
-		backgroundColor: 'red',
-		width: 40,
-		height: 40,
-		borderRadius: 59,
 		position: 'absolute',
-		left: 10
+		left: 10,
+		backgroundColor: 'hsl(80,30%,70%)',
+		borderRadius: 50,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	infoContainer: {
 		marginTop: 6,

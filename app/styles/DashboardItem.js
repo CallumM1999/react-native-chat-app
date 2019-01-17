@@ -21,10 +21,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold'
 	},
 	circle: {
-		backgroundColor: 'red',
-		width: 70,
-		height: 70,
-		borderRadius: 100 / 2,
+		backgroundColor: 'hsl(80,30%,70%)',
+		// flex: 1,
+		borderRadius: 50,
+
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+
+
 	},
 	right: {
 		paddingLeft: 20,
@@ -39,7 +45,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		marginLeft: 20,
-		flex: 1
+		flex: 4
 	},
 	name: {
 		fontWeight: '600',

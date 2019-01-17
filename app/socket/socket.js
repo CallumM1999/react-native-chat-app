@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import { newMessage, missedMessages } from '../actions/messages';
 import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
-import { LOCAL_URL } from '../../config.json';
+import { REMOTE_URL } from '../../config.json';
 import { addMessage } from '../actions/unread';
 import { Alert } from 'react-native';
 
@@ -16,7 +16,7 @@ class Socket {
 	}
 
 	connect(token) {
-		this.socket = io.connect(LOCAL_URL, { jsonp: false, secure: true, query: { token } });
+		this.socket = io.connect(REMOTE_URL, { jsonp: false, secure: true, query: { token } });
 		this.handleConnection();
 	}
 

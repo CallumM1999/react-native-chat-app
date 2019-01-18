@@ -12,8 +12,6 @@ import styles from '../styles/NewRoom';
 import SearchBox from '../componenets/SearchBox';
 import NewRoomOnlineUsers from '../componenets/NewRoomOnlineUsers';
 import NewRoomSearchResults from '../componenets/NewRoomSearchResults';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 
 class NewRoom extends Component {
 	constructor(props) {
@@ -70,15 +68,12 @@ class NewRoom extends Component {
     					clearSearch={this.clearSearch}
     				/>
 
-
-
-
     				<View style={styles.recommendedContainer}>
     					{
     						!this.state.search ?
     							(
     								<NewRoomOnlineUsers
-    									users={this.props.users.filter(item => item.socketID !== socket.socket.id)}
+    									users={this.props.users.filter(user => user.userID !== this.props._id)}
     									addConversation={this.addConversation}
     								/>
     							)

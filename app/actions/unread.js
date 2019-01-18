@@ -1,9 +1,13 @@
-export const addMessage = message => dispatch => {
-	dispatch({
-		type: 'ADD_MESSAGE',
-		room: message.room,
-		message,
-	});
+export const addMessages = messages => async dispatch => {
+	const msgLen = messages.length;
+
+	for (let i = 0; i < msgLen; i++) {
+		await dispatch({
+			type: 'ADD_MESSAGE',
+			room: messages[i].room,
+			message: messages[i],
+		});
+	}
 };
 
 export const openRoom = room => dispatch => {

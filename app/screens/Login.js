@@ -10,7 +10,7 @@ import { loadToken, loginRequest, loginError } from '../actions/auth';
 import styles from '../styles/Login';
 import PropTypes from 'prop-types';
 
-import { REMOTE_URL } from '../../config.json';
+import { SERVER_URL } from '../../config.json';
 
 class Login extends Component {
 	constructor(props) {
@@ -36,11 +36,11 @@ class Login extends Component {
 
     	if (error) return;
 
-    	this.setState({ error: null }, this.props.dispatch(loginRequest(email, password)));
+    	this.setState({ error: null }, () => this.props.dispatch(loginRequest(email, password)));
     }
 
     handleLink() {
-    	Linking.openURL(`${REMOTE_URL}/register`)
+    	Linking.openURL(`${SERVER_URL}/register`)
     		.catch(err => console.error('An error occurred', err));
     }
 

@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import jwt_decode from 'jwt-decode';
-import { REMOTE_URL } from '../../config.json';
+import post_login from '../requests/post_login';
 
 const clearMessages = () => ({ type: 'CLEAR_MESSAGES' });
 const logout = () => ({ type: 'LOGOUT' });
@@ -26,25 +26,26 @@ const login = ({ token, fname, lname, _id, email }) => ({
 	email
 });
 
-export const loginRequest = (email, password) => dispatch => {
+export const loginRequest = (email, password) => async dispatch => {
 	dispatch(loginLoading());
 
-	fetch(REMOTE_URL + '/login', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-		body: JSON.stringify({ email, password })
-	})
-		.then(response => {
-			const token = response.headers.get('authorization');
-			if (response.status != 200) return dispatch(loginError(`Status: ${response.status}`));
-			const decoded = jwt_decode(token);
+	const response = await post_login({ email, password });
 
-			AsyncStorage.setItem('token', token)
-				.then(() => dispatch(login({ token, _id: decoded._id, fname: decoded.fname, lname: decoded.lname, email: decoded.email })))
-				.catch(err => dispatch(loginError(`error setting token ${err}`)));
+	if (response.hasOwnProperty('err')) {
+		return dispatch(loginError(`error setting token ${response.err}`));
+	}
 
-		})
+	if (response.hasOwnProperty('status') && response.status != 200) {
+		return dispatch(loginError(`Status: ${response.status}`));
+	}
+
+	const { token } = response;
+	const decoded = jwt_decode(token);
+
+	AsyncStorage.setItem('token', token)
+		.then(() => dispatch(login({ token, _id: decoded._id, fname: decoded.fname, lname: decoded.lname, email: decoded.email })))
 		.catch(err => dispatch(loginError(`error setting token ${err}`)));
+
 };
 
 

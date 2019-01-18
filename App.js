@@ -3,28 +3,33 @@ import { Provider } from 'react-redux';
 import store from './app/store/configureStore';
 import socket from './app/socket/socket';
 import BackgroundTimer from 'react-native-background-timer';
-
+import { newMessages } from './app/actions/messages';
 import AppRouter from './app/router/router';
 
-const runTimeout = () => {
-	let connecting = false;
 
-	const func = () => BackgroundTimer.setTimeout(() => {
+import post_messages from './app/requests/post_messages';
+
+const runTimeout = () => {
+
+	const func = () => BackgroundTimer.setTimeout(async () => {
 		const state = store.getState();
 
 		if (!state.auth.loggedIn) return func();
 
-		if (connecting && socket.status()) {
-			console.log('connected set true');
-			connecting = false;
-			func();
-		} else if (socket.status()) {
-			console.log('continue');
+		if (socket.status()) {
 			func();
 		} else {
 			console.log('Attempting to reconnect');
-			connecting = true;
-			socket.connect(state.auth.token);
+
+			const response = await post_messages({ token: state.auth.token });
+
+			if (response.err) console.log('fetch err', response.err);
+
+			if (response.messages) {
+				console.log('messages', response.messages);
+				store.dispatch(newMessages(response.messages));
+			}
+
 			func();
 		}
 

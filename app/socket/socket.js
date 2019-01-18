@@ -1,9 +1,9 @@
 import io from 'socket.io-client';
-import { newMessage, missedMessages } from '../actions/messages';
+import { newMessages } from '../actions/messages';
 import { updateUsers } from '../actions/users';
 import store from '../store/configureStore';
-import { REMOTE_URL } from '../../config.json';
-import { addMessage } from '../actions/unread';
+import { SERVER_URL } from '../../config.json';
+import { addMessages } from '../actions/unread';
 import { Alert } from 'react-native';
 
 class Socket {
@@ -16,7 +16,7 @@ class Socket {
 	}
 
 	connect(token) {
-		this.socket = io.connect(REMOTE_URL, { jsonp: false, secure: true, query: { token } });
+		this.socket = io.connect(SERVER_URL, { jsonp: false, secure: true, query: { token } });
 		this.handleConnection();
 	}
 
@@ -31,16 +31,11 @@ class Socket {
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
     	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
     	this.socket.on('disconnect', () => console.log('disconnected'));
-    	this.socket.on('sendMessageToClients', async message => {
+    	this.socket.on('sendMessageToClients', async messages => {
     		await Promise.all([
-    			store.dispatch(addMessage(message)),
-    			store.dispatch(newMessage(message))
+    			store.dispatch(addMessages(messages)),
+    			store.dispatch(newMessages(messages))
     		]);
-    	});
-
-    	this.socket.on('clientMissedMessages', messages => {
-    		console.log('missed messages', messages);
-    		store.dispatch(missedMessages(messages));
     	});
     }
 }

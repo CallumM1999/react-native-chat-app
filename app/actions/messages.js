@@ -38,30 +38,24 @@ const handleMissedMessage = (message, dispatch) => new Promise(async (resolve) =
 	}
 });
 
-export const missedMessages = messages => async dispatch => {
-	const msgCount = messages.length;
+export const newMessages = messages => async dispatch => {
+	let msgLength = messages.length;
+	for (let i = 0; i < msgLength; i++) {
+		const msg = messages[i];
+		const state = store.getState();
+		const hasKey = state.messages.hasOwnProperty(msg.room);
 
-	for (let i = 0; i < msgCount; i++) {
-		await handleMissedMessage(messages[i], dispatch);
-	}
-	missedMessagesNotification(msgCount);
-};
-
-export const newMessage = message => async dispatch => {
-	console.log('new message', message);
-	const state = store.getState();
-	const hasKey = state.messages.hasOwnProperty(message.room);
-
-	if (hasKey) {
-		await storeMessage(message);
-		await dispatch({ type: 'NEW_MESSAGE', message });
-		const { fname, lname } = state.messages[message.room];
-		messageNotification(message.msg, `${fname} ${lname}`, message.room);
-	} else {
-		const roomData = await getRoomData(message.room);
-		await storeMessage(message, roomData);
-		await dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
-		messageNotification(message.msg, `${roomData.fname} ${roomData.lname}`, message.room);
+		if (hasKey) {
+			await storeMessage(msg);
+			await dispatch({ type: 'NEW_MESSAGE', message: msg });
+			const { fname, lname } = state.messages[msg.room];
+			messageNotification(msg.msg, `${fname} ${lname}`, msg.room);
+		} else {
+			const roomData = await getRoomData(msg.room);
+			await storeMessage(msg, roomData);
+			await dispatch(newRoom(msg.room, roomData.fname, roomData.lname, [msg]));
+			messageNotification(msg.msg, `${roomData.fname} ${roomData.lname}`, msg.room);
+		}
 	}
 };
 
@@ -141,15 +135,6 @@ export const deleteConversation = (room) => async dispatch => {
 		AsyncStorage.removeItem(`msg__${room}`),
 		dispatch({ type: 'DELETE_CONVERSATION', room })
 	]);
-};
-
-
-const missedMessagesNotification = count => {
-	PushNotification.localNotification({
-		color: 'red',
-		message: `You have ${count} missed messages`, // (required)
-		actions: ['reply']
-	});
 };
 
 const messageNotification = (msg, sender, room) => {

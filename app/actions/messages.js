@@ -3,6 +3,7 @@ import store from '../store/configureStore';
 import socket from '../socket/socket';
 import PushNotification from 'react-native-push-notification';
 import configureNotification from '../notifications/configureNotification';
+import { get } from '../appstate/appstate';
 
 configureNotification();
 
@@ -28,17 +29,18 @@ export const newMessages = messages => async dispatch => {
 		const msg = messages[i];
 		const state = store.getState();
 		const hasKey = state.messages.hasOwnProperty(msg.room);
+		const appState = get();
 
 		if (hasKey) {
 			await storeMessage(msg);
 			await dispatch({ type: 'NEW_MESSAGE', message: msg });
 			const { fname, lname } = state.messages[msg.room];
-			messageNotification(msg.msg, `${fname} ${lname}`, msg.room);
+			if (appState === 'background') messageNotification(msg.msg, `${fname} ${lname}`, msg.room);
 		} else {
 			const roomData = await getRoomData(msg.room);
 			await storeMessage(msg, roomData);
 			await dispatch(newRoom(msg.room, roomData.fname, roomData.lname, [msg]));
-			messageNotification(msg.msg, `${roomData.fname} ${roomData.lname}`, msg.room);
+			if (appState === 'background') messageNotification(msg.msg, `${roomData.fname} ${roomData.lname}`, msg.room);
 		}
 	}
 };

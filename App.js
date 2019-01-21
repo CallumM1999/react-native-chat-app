@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { AppState } from 'react-native';
 import store from './app/store/configureStore';
 import socket from './app/socket/socket';
 import BackgroundTimer from 'react-native-background-timer';
 import { newMessages } from './app/actions/messages';
 import AppRouter from './app/router/router';
 import post_messages from './app/requests/post_messages';
+
+
+import { update } from './app/appstate/appstate';
+
+AppState.addEventListener('change', state => update(state));
 
 const runTimeout = () => {
 	const func = () => BackgroundTimer.setTimeout(async () => {
@@ -34,6 +40,8 @@ const handleAuthState = () => {
 };
 
 store.subscribe(handleAuthState);
+
+
 
 class App extends Component {
     render = () => (

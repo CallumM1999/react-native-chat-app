@@ -5,6 +5,7 @@ import store from '../store/configureStore';
 import { SERVER_URL } from '../../config.json';
 import { addMessages } from '../actions/unread';
 import { Alert } from 'react-native';
+import { logoutRequest } from '../actions/auth';
 
 class Socket {
 	constructor() {
@@ -27,7 +28,12 @@ class Socket {
     getRoomData = (room, cb) => this.socket.emit('getRoomData', room, data => cb(data))
 
     handleConnection() {
-    	this.socket.on('error', message => Alert.alert('SOCKET ERROR:', message));
+    	this.socket.on('error', message => {
+    		if (message === 'invalid token') {
+    			store.dispatch(logoutRequest());
+    		}
+    		Alert.alert('SOCKET ERROR:', message);
+    	});
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));
     	this.socket.on('connect', () => console.log('socket connected', this.socket.id));
     	this.socket.on('disconnect', () => console.log('disconnected'));

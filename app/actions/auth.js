@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import jwt_decode from 'jwt-decode';
 import post_login from '../requests/post_login';
+import post_delete from '../requests/post_delete';
 
 const clearMessages = () => ({ type: 'CLEAR_MESSAGES' });
 const logout = () => ({ type: 'LOGOUT' });
@@ -76,3 +77,20 @@ export const loginError = (error) => ({ type: 'LOGIN_ERROR', error });
 const tokenLoading = () => ({ type: 'TOKEN_LOADING' });
 
 const tokenError = error => ({ type: 'TOKEN_ERROR', error });
+
+
+
+export const deleteAccount = token => async dispatch => {
+	console.log('delete account action');
+	const response = await post_delete({ token });
+
+	console.log('response', response);
+
+	if (response.error) {
+		console.log('delete account error', response.error);
+	}
+
+	if (response.status === 200) {
+		dispatch(logoutRequest());
+	}
+};

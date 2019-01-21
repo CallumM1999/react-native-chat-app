@@ -78,19 +78,8 @@ const tokenLoading = () => ({ type: 'TOKEN_LOADING' });
 
 const tokenError = error => ({ type: 'TOKEN_ERROR', error });
 
-
-
 export const deleteAccount = token => async dispatch => {
-	console.log('delete account action');
 	const response = await post_delete({ token });
-
-	console.log('response', response);
-
-	if (response.error) {
-		console.log('delete account error', response.error);
-	}
-
-	if (response.status === 200) {
-		dispatch(logoutRequest());
-	}
+	if (response.error) console.log('delete account error', response.error);
+	if (response.status === 200) dispatch(logoutRequest());
 };

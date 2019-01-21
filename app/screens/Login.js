@@ -25,17 +25,8 @@ class Login extends Component {
 
     handleLogin() {
     	if (this.props.loginLoading) return console.log('Waiting for previous request');
-
     	const { email, password } = this.state;
-    	let error = false;
-
-    	if (!password || !email) {
-    		error = true;
-    		this.props.dispatch(loginError(`Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`));
-    	}
-
-    	if (error) return;
-
+    	if (!password || !email) return this.props.dispatch(loginError(`Missing Fields: ${!email ? 'email' : ''} ${!password ? 'password' : ''}`));
     	this.setState({ error: null }, () => this.props.dispatch(loginRequest(email, password)));
     }
 
@@ -82,7 +73,6 @@ class Login extends Component {
 
     			</ScrollView>
     		</Container>
-
     	);
     }
 }

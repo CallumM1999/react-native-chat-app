@@ -8,9 +8,19 @@ const styles = StyleSheet.create({
 		marginBottom: 50
 	},
 	accountTitle: {
-		textAlign: 'center',
-		fontSize: 28,
-		marginBottom: 18
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginBottom: 20,
+	},
+	circle: {
+		backgroundColor: 'hsl(80,30%,70%)',
+		borderRadius: 50,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	accountField: {
 		textAlign: 'center',
@@ -27,24 +37,18 @@ const styles = StyleSheet.create({
 		height: 1,
 		backgroundColor: '#666',
 	},
-
 	accountButtonContainer: {
-		// backgroundColor: 'orange',
 		paddingHorizontal: 20,
 		marginTop: 30,
 	},
-
 	accountButton: {
 		backgroundColor: 'hsl(200, 50%, 50%)',
 		borderRadius: 5,
-
 		height: 45,
-
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center'
-
 	},
 	accountButtonText: {
 		color: 'white',

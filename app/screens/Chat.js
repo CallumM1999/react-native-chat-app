@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Container from '../componenets/Container';
 import ChatMessage from '../componenets/ChatMessage';
@@ -65,7 +65,6 @@ class Chat extends Component {
     }
 
     resendMessage(index) {
-    	// remove message, then add to end of messages
     	const newIndex = this.props.messages[this.props.room].chat.length - 1;
     	const actualIndex = newIndex - index;
     	const timestamp = Math.floor(Date.now());
@@ -117,7 +116,6 @@ class Chat extends Component {
     	</Container>
     )
 }
-
 
 Chat.propTypes = {
 	room: PropTypes.string.isRequired,

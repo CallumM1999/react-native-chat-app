@@ -21,7 +21,13 @@ class Socket {
 		this.handleConnection();
 	}
 
-    status = () => this.socket.connected;
+    status = () => {
+    	try {
+    		return this.socket.connected;
+    	} catch (e) {
+    		return false;
+    	}
+    }
     disconnect = () => this.socket.disconnect();
     sendMessage = (message, cb) => this.socket.emit('message', message, res => cb(res))
     userSearch = (queryString, _id, cb) => this.socket.emit('userSearch', queryString, _id, cb)
@@ -29,9 +35,7 @@ class Socket {
 
     handleConnection() {
     	this.socket.on('error', message => {
-    		if (message === 'invalid token') {
-    			store.dispatch(logoutRequest());
-    		}
+    		if (message === 'invalid token') return store.dispatch(logoutRequest());
     		Alert.alert('SOCKET ERROR:', message);
     	});
     	this.socket.on('ONLINE_USERS', users => store.dispatch(updateUsers(users)));

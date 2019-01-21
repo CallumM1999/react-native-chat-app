@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Container from '../componenets/Container';
 import { addRoom } from '../actions/messages';
 import PropTypes from 'prop-types';
 import socket from '../socket/socket';
-
 import styles from '../styles/NewRoom';
-
 import SearchBox from '../componenets/SearchBox';
 import NewRoomOnlineUsers from '../componenets/NewRoomOnlineUsers';
 import NewRoomSearchResults from '../componenets/NewRoomSearchResults';
@@ -27,7 +25,8 @@ class NewRoom extends Component {
 			results: [],
 			resultsLength: 0,
 			search: false,
-			typingTimeout: 0
+			typingTimeout: 0,
+			loading: true
 		};
 	}
 
@@ -39,13 +38,15 @@ class NewRoom extends Component {
     }
 
     handleSearch() {
-    	if (this.state.input === '') return this.setState({ search: false });
+    	if (this.state.input === '') return this.setState({ search: false, loading: true, results: [] });
 
+    	this.setState({ loading: true });
     	socket.userSearch(this.state.input, this.props._id, response => {
     		this.setState({
     			results: response.users,
     			resultsLength: response.count,
     			search: true,
+    			loading: false
     		});
     	});
     }
@@ -53,12 +54,12 @@ class NewRoom extends Component {
     handleSearchInput(input) {
     	this.setState({ input });
     	if (this.state.typingTimeout) clearTimeout(this.state.typingTimeout);
-    	this.setState({ typingTimeout: setTimeout(this.handleSearch, 600) });
+    	this.setState({ typingTimeout: setTimeout(this.handleSearch, 400) });
     }
 
     render() {
     	return (
-    		<Container heading='Create' back={Actions.pop}>
+    		<Container heading='Find A Person' back={Actions.pop}>
     			<View style={styles.pageContainer}>
     				<SearchBox
     					placeholder='Search'
@@ -67,26 +68,23 @@ class NewRoom extends Component {
     					onSubmitEditing={this.handleSearch}
     					clearSearch={this.clearSearch}
     				/>
-
-    				<View style={styles.recommendedContainer}>
-    					{
-    						!this.state.search ?
-    							(
-    								<NewRoomOnlineUsers
-    									users={this.props.users.filter(user => user.userID !== this.props._id)}
-    									addConversation={this.addConversation}
-    								/>
-    							)
+    				<ScrollView>
+    					<View style={styles.recommendedContainer}>
+    						{!this.state.input ?
+    							<NewRoomOnlineUsers
+    								users={this.props.users.filter(user => user.userID !== this.props._id)}
+    								addConversation={this.addConversation}
+    							/>
     							:
-    							(
-    								<NewRoomSearchResults
-    									results={this.state.results}
-    									addConversation={this.addConversation}
-    									resultsLength={this.state.resultsLength}
-    								/>
-    							)
-    					}
-    				</View>
+    							<NewRoomSearchResults
+    								results={this.state.results}
+    								addConversation={this.addConversation}
+    								resultsLength={this.state.resultsLength}
+    								loading={this.state.loading}
+    							/>
+    						}
+    					</View>
+    				</ScrollView>
     			</View>
     		</Container>
     	);

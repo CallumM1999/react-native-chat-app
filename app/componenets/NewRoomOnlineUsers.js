@@ -12,22 +12,17 @@ const NoUsers = () => (
 
 const NewRoomOnlineUsers = props => (
 	<View>
-		<Text style={styles.headerText}>Online Users : {props.users.length}</Text>
+		{!!props.users.length && <Text style={styles.headerText}>Online Users : {props.users.length}</Text>}
 
 		<FlatList
 			style={styles.userContainer}
 			data={props.users}
-			keyExtractor={(item, index) => 'key' + index}
+			keyExtractor={(undefined, index) => 'key' + index}
 			ListEmptyComponent={NoUsers}
 			renderItem={({ item }) => (
-				<NewRoomUser
-					user={item}
-					addConversation={props.addConversation}
-				/>
+				<NewRoomUser user={item} addConversation={props.addConversation} />
 			)}
 		/>
-
-
 	</View>
 );
 

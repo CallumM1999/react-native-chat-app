@@ -20,25 +20,9 @@ const getRoomData = room => new Promise((resolve) => {
 	socket.getRoomData(room, cb => resolve(cb));
 });
 
-const handleMissedMessage = (message, dispatch) => new Promise(async (resolve) => {
-	console.log('handle message', message);
-
-	const state = store.getState();
-	const hasKey = state.messages.hasOwnProperty(message.room);
-
-	if (hasKey) {
-		storeMessage(message);
-		dispatch({ type: 'NEW_MESSAGE', message: message });
-		resolve();
-	} else {
-		const roomData = await getRoomData(message.room);
-		storeMessage(message, roomData);
-		dispatch(newRoom(message.room, roomData.fname, roomData.lname, [message]));
-		resolve();
-	}
-});
 
 export const newMessages = messages => async dispatch => {
+	console.log('new messages', messages);
 	let msgLength = messages.length;
 	for (let i = 0; i < msgLength; i++) {
 		const msg = messages[i];

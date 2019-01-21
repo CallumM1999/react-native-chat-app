@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 
 const NewRoomSearchResults = props => (
 	<View>
-		<Text style={styles.headerText}>Search Results : {props.resultsLength}</Text>
+		<Text style={styles.headerText}>
+			{
+				props.loading ? 'loading...' : `Search Results: ${props.resultsLength}`
+			}
+		</Text>
 
 		<FlatList
 			style={styles.userContainer}
@@ -26,7 +30,8 @@ const NewRoomSearchResults = props => (
 NewRoomSearchResults.propTypes = {
 	resultsLength: PropTypes.number,
 	results: PropTypes.array,
-	addConversation: PropTypes.func.isRequired
+	addConversation: PropTypes.func.isRequired,
+	loading: PropTypes.bool.isRequired
 };
 
 export default NewRoomSearchResults;

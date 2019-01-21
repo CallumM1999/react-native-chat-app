@@ -5,33 +5,17 @@ import socket from './app/socket/socket';
 import BackgroundTimer from 'react-native-background-timer';
 import { newMessages } from './app/actions/messages';
 import AppRouter from './app/router/router';
-
-
 import post_messages from './app/requests/post_messages';
 
 const runTimeout = () => {
-
 	const func = () => BackgroundTimer.setTimeout(async () => {
 		const state = store.getState();
+		if (!state.auth.loggedIn || socket.status()) return func();
 
-		if (!state.auth.loggedIn) return func();
-
-		if (socket.status()) {
-			func();
-		} else {
-			console.log('Attempting to reconnect');
-
-			const response = await post_messages({ token: state.auth.token });
-
-			if (response.err) console.log('fetch err', response.err);
-
-			if (response.messages) {
-				console.log('messages', response.messages);
-				store.dispatch(newMessages(response.messages));
-			}
-
-			func();
-		}
+		const response = await post_messages({ token: state.auth.token });
+		if (response.err) console.log('fetch err', response.err);
+		if (response.messages) store.dispatch(newMessages(response.messages));
+		func();
 
 	}, 1000);
 	func();

@@ -2,23 +2,25 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
 	searchContainer: {
-		borderColor: '#999',
-		borderStyle: 'solid',
-		borderBottomWidth: 1,
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		height: 60
+		height: 60,
+		padding: 6
 	},
 	searchInput: {
 		flex: 1,
-		paddingHorizontal: 4
+		backgroundColor: '#fff',
+		borderRadius: 4,
+		paddingHorizontal: 10,
+		borderBottomWidth: 1,
+		borderStyle: 'solid',
+		borderColor: '#999',
 	},
 	clearSearch: {
-		backgroundColor: '#f66',
-		paddingHorizontal: 10,
-		paddingVertical: 8,
+		paddingHorizontal: 2,
+		paddingVertical: 2,
 		borderRadius: 4,
 		marginRight: 6,
 		display: 'flex',
@@ -38,9 +40,6 @@ const styles = StyleSheet.create({
 	},
 	userContainer: {
 		width: '100%',
-		borderStyle: 'solid',
-		borderColor: 'grey',
-		borderTopWidth: 14,
 		borderRadius: 3
 	},
 	user: {
@@ -67,12 +66,11 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	noUsersContainer: {
-		backgroundColor: '#c99',
 		padding: 10,
-		borderRadius: 4
+		marginTop: 30,
 	},
 	noUsersText: {
-		fontSize: 20,
+		fontSize: 26,
 		color: '#444',
 		textAlign: 'center'
 	}

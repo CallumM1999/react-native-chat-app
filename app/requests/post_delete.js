@@ -6,11 +6,7 @@ const post_delete = body => new Promise((resolve) => {
 		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
 		body: JSON.stringify(body)
 	})
-		.then(({ status }) => {
-			resolve({
-				status
-			});
-		})
+		.then(({ status }) => resolve({ status }))
 		.catch(error => resolve({ error }));
 });
 

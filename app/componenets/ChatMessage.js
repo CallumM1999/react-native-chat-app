@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import TimeAgo from 'react-native-timeago';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-
 const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, status, msg, time, resendMessage }) => {
 
 	const frontCorner = prev !== user;
@@ -19,7 +18,6 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 			styles.messageContainer,
 			(selected && styles.messageContainerSelected),
 		]} >
-
 			{(!currentUser && (backCorner || !next)) && <View style={styles.circle}><Icon name='account-circle' size={40} color='black' style={{}} /></View>}
 
 			<TouchableWithoutFeedback
@@ -30,13 +28,11 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 				}}
 			>
 				<View>
-
 					<View style={[
 						styles.message,
 						(!!selected && styles.messageSelected),
 						(status === 'failed' && styles.messageFailed)
 					]}>
-
 						<Text style={styles.messageText}>{msg}</Text>
 					</View>
 
@@ -51,14 +47,10 @@ const ChatMessage = ({ prev, next, _id, user, selectMessage, index, selected, st
 									</TouchableWithoutFeedback>
 								)}
 							</Text>
-
 						</View>
 					)}
-
 				</View>
-
 			</TouchableWithoutFeedback>
-
 		</View>
 	);
 };
@@ -74,7 +66,8 @@ ChatMessage.propTypes = {
 	selectMessage: PropTypes.func.isRequired,
 	index: PropTypes.number.isRequired,
 	selected: PropTypes.bool.isRequired,
-	status: PropTypes.string
+	status: PropTypes.string,
+	resendMessage: PropTypes.func.isRequired,
 };
 
 export default ChatMessage;

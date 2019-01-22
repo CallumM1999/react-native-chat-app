@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import FloatingButton from '../componenets/FloatingButton';
@@ -10,6 +10,19 @@ import DashboardSettingsModal from '../componenets/DashboardSettingsModal';
 import { loadMessages, deleteConversation } from '../actions/messages';
 import { openRoom } from '../actions/unread';
 import PropTypes from 'prop-types';
+
+
+const Empty = props => {
+	return (
+		<View style={{
+			// backgroundColor: 'orange',
+			padding: 30,
+		}}>
+			<Text style={{ fontSize: 40, textAlign: 'center', color: '#555', marginTop: 60 }}>No conversations!</Text>
+			<Text style={{ fontSize: 20, textAlign: 'center', color: '#777', marginTop: 10 }}>Press the Add button to find other users.</Text>
+		</View>
+	);
+};
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -55,6 +68,7 @@ class Dashboard extends Component {
     					}
 
     				})}
+    				ListEmptyComponent={Empty}
 
     				renderItem={({ item }) => {
     					const room = this.props.messages[item];

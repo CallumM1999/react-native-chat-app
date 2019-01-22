@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { newLocalMessage, updateMessageStatus, resendMessage } from '../actions/messages';
 import PropTypes from 'prop-types';
 import { openRoom } from '../actions/unread';
+import { capitalize } from '../utils/utils';
 
 class Chat extends Component {
 	constructor(props) {
@@ -26,7 +27,7 @@ class Chat extends Component {
 			chat: JSON.parse(JSON.stringify(this.props.messages[this.props.room].chat)).reverse(),
 		};
 
-		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${this.state.room.fname} ${this.state.room.lname}`;
+		this.title = this.state.room.roomType === 'group' ? this.state.room.title : `${capitalize(this.state.room.fname)} ${capitalize(this.state.room.lname)}`;
 	}
 
 	componentWillReceiveProps({ messages, room, unread }) {

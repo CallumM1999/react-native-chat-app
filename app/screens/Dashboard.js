@@ -6,7 +6,7 @@ import FloatingButton from '../componenets/FloatingButton';
 import Container from '../componenets/Container';
 import DashboardItem from '../componenets/DashboardItem';
 import DashboardSettingsModal from '../componenets/DashboardSettingsModal';
-
+import { capitalize } from '../utils/utils';
 import { loadMessages, deleteConversation } from '../actions/messages';
 import { openRoom } from '../actions/unread';
 import PropTypes from 'prop-types';
@@ -73,7 +73,7 @@ class Dashboard extends Component {
     				renderItem={({ item }) => {
     					const room = this.props.messages[item];
     					const msg = room.chat[room.chat.length - 1];
-    					const title = room.roomType === 'group' ? room.title : `${room.fname} ${room.lname}`;
+    					const title = room.roomType === 'group' ? room.title : `${capitalize(room.fname)} ${capitalize(room.lname)}`;
 
     					return (
     						<DashboardItem

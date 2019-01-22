@@ -8,14 +8,9 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from '../styles/Settings';
 import SettingsButton from '../componenets/SettingsButton';
+import { capitalize } from '../utils/utils';
 
 class Settings extends Component {
-	capitalize(string) {
-		const start = string.substring(0, 1);
-		const end = string.substring(1);
-		return start.toUpperCase() + end;
-	}
-
 	render() {
 		return (
 			<Container back={Actions.pop} heading='Settings'>
@@ -31,7 +26,7 @@ class Settings extends Component {
 						<View style={styles.accountUnderline} />
 					</View>
 
-					<Text style={styles.accountField}>{this.capitalize(this.props.fname)} {this.capitalize(this.props.lname)}</Text>
+					<Text style={styles.accountField}>{capitalize(this.props.fname)} {capitalize(this.props.lname)}</Text>
 				</View>
 
 				<SettingsButton

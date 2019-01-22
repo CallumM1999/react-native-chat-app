@@ -4,6 +4,7 @@ import socket from '../socket/socket';
 import PushNotification from 'react-native-push-notification';
 import configureNotification from '../notifications/configureNotification';
 import { get } from '../appstate/appstate';
+import { capitalize } from '../utils/utils';
 
 configureNotification();
 
@@ -35,12 +36,12 @@ export const newMessages = messages => async dispatch => {
 			await storeMessage(msg);
 			await dispatch({ type: 'NEW_MESSAGE', message: msg });
 			const { fname, lname } = state.messages[msg.room];
-			if (appState === 'background') messageNotification(msg.msg, `${fname} ${lname}`, msg.room);
+			if (appState === 'background') messageNotification(msg.msg, `${capitalize(fname)} ${capitalize(lname)}`, msg.room);
 		} else {
 			const roomData = await getRoomData(msg.room);
 			await storeMessage(msg, roomData);
 			await dispatch(newRoom(msg.room, roomData.fname, roomData.lname, [msg]));
-			if (appState === 'background') messageNotification(msg.msg, `${roomData.fname} ${roomData.lname}`, msg.room);
+			if (appState === 'background') messageNotification(msg.msg, `${capitalize(roomData.fname)} ${capitalize(roomData.lname)}`, msg.room);
 		}
 	}
 };

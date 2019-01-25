@@ -11,7 +11,7 @@ Messager chat app build with React Native.
 ## About
 I had read about React Native in a few online articles and wanted to give it a try.
 
-The app is connected to a [backend](https://github.com/CallumM1999/chat-server) powered by Node.js, Socketio and MongoDB.
+The app is connected to a [backend](https://raw.githubusercontent.com/CallumM1999/chat-server) powered by Node.js, Socketio and MongoDB.
 
 ## Installation
 ### Prerequisites
@@ -58,30 +58,11 @@ cd android
 ```
 
 ### Gallery
-Login Page
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/login.png"></img>
-
-
-Find Users - Search
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/find_search.png"></img>
-
-Find Users - Online
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/find_online.png"></img>
-
-Dashboard - Empty
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/dashboard_empty.png"></img>
-
-Dashboard
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/dashboard.png"></img>
-
-Chat
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/chat.png"></img>
-
-Settings
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/settings.png"></img>
-
-Settings Delete
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/settings_delete.png"></img>
-
-Notification
-<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/login.png"></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/login.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/dashboard_empty.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/dashboard.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/chat.png" width='33%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/find_search.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/find_online.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/settings.png" width='32%'></img>
+<img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/settings_delete.png" width='32%'></img>

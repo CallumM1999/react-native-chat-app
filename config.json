@@ -1,4 +1,4 @@
 {
-    "SERVER_URL": "http://192.168.0.16:3000",
-    // "SERVER_URL": "https://nameless-reef-89192.herokuapp.com",
+    // "SERVER_URL": "http://192.168.0.16:3000"
+    "SERVER_URL": "https://nameless-reef-89192.herokuapp.com"
 }

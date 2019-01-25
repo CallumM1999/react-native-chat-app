@@ -4,6 +4,7 @@ Messager chat app build with React Native.
 ## Table of Contents
 * [About](#About)
 * [Installation](#Installation)
+* [Download](#Download)
 * [Gallery](#Gallery)
 
 
@@ -13,15 +14,20 @@ I had read about React Native in a few online articles and wanted to give it a t
 
 The app is connected to a [backend](https://raw.githubusercontent.com/CallumM1999/chat-server) powered by Node.js, Socketio and MongoDB.
 
+To register an account, the app redirects the user to a Vue powered form.
+
+[Register](https://nameless-reef-89192.herokuapp.com/register)
+
+
 ## Installation
 ### Prerequisites
 ```
 nodeJS
+
 npm or yarn
+
 Android Studio
-
 ```
-
 
 ### Installing Environment
 #### Setup Android Studio
@@ -56,6 +62,12 @@ cd android
 ```
 ./gradlew assembleRelease
 ```
+
+### Download
+
+Download latest APK from Google Drive.
+
+[Link](https://drive.google.com/open?id=1LEQjy7jlliwl7-O1qQRqCE2j0t3S1zaU)
 
 ### Gallery
 <img src="https://raw.githubusercontent.com/CallumM1999/react-native-chat-app/master/readme_assets/login.png" width='32%'></img>

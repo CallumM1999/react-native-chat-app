@@ -59,30 +59,29 @@ cd android
 
 ### Gallery
 Login Page
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/login.png"></img>
-
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/login.png"></img>
 
 
 Find Users - Search
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/find_search.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/find_search.png"></img>
 
 Find Users - Online
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/find_online.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/find_online.png"></img>
 
 Dashboard - Empty
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/dashboard_empty.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/dashboard_empty.png"></img>
 
 Dashboard
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/dashboard.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/dashboard.png"></img>
 
 Chat
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/chat.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/chat.png"></img>
 
 Settings
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/settings.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/settings.png"></img>
 
 Settings Delete
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/settings_delete.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/settings_delete.png"></img>
 
 Notification
-<img src="https://github.com/CallumM1999/react-native-chat-app/readme_assets/login.png"></img>
+<img src="https://github.com/CallumM1999/react-native-chat-app/blob/master/readme_assets/login.png"></img>
